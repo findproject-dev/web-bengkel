@@ -1,0 +1,115 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE } from '../config/site';
+---
+
+<Layout
+  title="Syarat & Ketentuan Layanan - FindFix Automotive Service Center"
+  description="Syarat dan ketentuan umum pengerjaan servis, garansi, dan pembelian suku cadang di FindFix Semarang."
+>
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Syarat &amp; Ketentuan</span>
+      </nav>
+
+      <div class="legal-hero-header">
+        <p class="section-eyebrow">Ketentuan Bengkel</p>
+        <h1>Syarat &amp; Ketentuan Layanan</h1>
+        <p class="hero-desc">
+          Harap membaca syarat dan ketentuan berikut sebelum mempercayakan pengerjaan kendaraan Anda di FindFix Automotive Service Center.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section legal-content-section">
+    <div class="container legal-container">
+      <article class="legal-body">
+        <h2>1. Estimasi Biaya &amp; Persetujuan Pengerjaan</h2>
+        <p>
+          Seluruh harga yang tertera di website merupakan estimasi awal (demonstrasi tarif dasar) dan dapat disesuaikan berdasarkan kondisi fisik komponen dan tipe kendaraan setelah inspeksi langsung.
+        </p>
+        <p>
+          Teknisi FindFix <strong>tidak akan</strong> melakukan tindakan perbaikan tambahan atau penggantian part tanpa konfirmasi dan persetujuan eksplisit dari pemilik kendaraan terlebih dahulu.
+        </p>
+
+        <h2>2. Ketentuan Garansi Pengerjaan</h2>
+        <p>
+          Layanan perbaikan di FindFix dilindungi oleh garansi servis pengerjaan dengan ketentuan sebagai berikut:
+        </p>
+        <ul>
+          <li>Garansi berlaku untuk item pekerjaan dan komponen yang diganti sesuai dengan rincian nota resmi FindFix.</li>
+          <li>Masa berlaku garansi terhitung sejak tanggal kendaraan selesai dan diserahkan ke pelanggan.</li>
+          <li>Klaim garansi wajib menyertakan bukti nota servis resmi fisik atau digital.</li>
+          <li>Garansi batal apabila kerusakan disebabkan oleh kelalaian pemakaian (misal: kekurangan oli akibat kebocoran eksternal yang tidak diperbaiki, tabrakan, modifikasi di luar bengkel FindFix, atau bencana alam).</li>
+        </ul>
+
+        <h2>3. Pengambilan Kendaraan &amp; Pembayaran</h2>
+        <p>
+          Kendaraan yang telah selesai diservis wajib diambil sesuai dengan waktu yang disepakati setelah mendapat notifikasi penyelesaian dari admin FindFix. Pembayaran penuh dilakukan saat serah terima kendaraan melalui metode tunai, QRIS, atau transfer bank resmi FindFix.
+        </p>
+
+        <h2>4. Barang Berharga di Dalam Kendaraan</h2>
+        <p>
+          Pemilik kendaraan diimbau untuk tidak meninggalkan barang-barang berharga (laptop, uang tunai, perhiasan, dokumen penting) di dalam kendaraan selama proses servis berlangsung di area bengkel.
+        </p>
+
+        <h2>5. Layanan Booking &amp; Pembatalan</h2>
+        <p>
+          Booking melalui website atau WhatsApp bersifat reservasi slot antrean. Apabila Anda berhalangan hadir pada jadwal yang disepakati, mohon beri tahu admin FindFix setidaknya 2 jam sebelumnya agar slot dapat dialokasikan bagi pelanggan lain yang membutuhkan.
+        </p>
+      </article>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.legal-hero-header {
+  max-width: 760px;
+  margin-top: 24px;
+}
+.legal-hero-header h1 {
+  color: white;
+  margin-bottom: 12px;
+}
+.legal-container {
+  max-width: 820px;
+}
+.legal-body {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 48px;
+  line-height: 1.8;
+  color: var(--color-slate);
+}
+.legal-body h2 {
+  font-size: 1.375rem;
+  color: var(--color-navy);
+  margin-top: 32px;
+  margin-bottom: 12px;
+}
+.legal-body h2:first-of-type {
+  margin-top: 0;
+}
+.legal-body p {
+  margin-bottom: 16px;
+}
+.legal-body ul {
+  list-style: disc;
+  padding-left: 24px;
+  margin-bottom: 20px;
+}
+.legal-body li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 640px) {
+  .legal-body {
+    padding: 24px;
+  }
+}
+</style>

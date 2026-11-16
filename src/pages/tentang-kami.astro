@@ -1,0 +1,689 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE, waLink } from '../config/site';
+
+const values = [
+  {
+    title: "Affordable (Terjangkau)",
+    desc: "Menghadirkan harga yang kompetitif dan transparan tanpa biaya tersembunyi. Estimasi disampaikan di awal sebelum pengerjaan.",
+    icon: "💰",
+  },
+  {
+    title: "Reliable (Terpercaya)",
+    desc: "Mengedepankan pengerjaan yang teliti, penggunaan komponen berkualitas, dan pemberian garansi pengerjaan sesuai ketentuan.",
+    icon: "🤝",
+  },
+  {
+    title: "Efficient (Efisien)",
+    desc: "Proses penerimaan, pemeriksaan, dan pengerjaan tertata rapi guna meminimalkan waktu tunggu kendaraan pelanggan.",
+    icon: "⚡",
+  },
+  {
+    title: "Professional (Profesional)",
+    desc: "Menerapkan standar kerja otomotif yang konsisten dengan teknisi berpengalaman dan peralatan diagnostik modern.",
+    icon: "🔧",
+  },
+  {
+    title: "Customer-Oriented (Fokus Pelanggan)",
+    desc: "Mengutamakan komunikasi jujur dan rekomendasi terbaik sesuai kebutuhan serta persetujuan pelanggan.",
+    icon: "👥",
+  },
+];
+
+const facilities = [
+  {
+    title: "Area Kerja Mobil & Motor Terpisah",
+    desc: "Ruang kerja terorganisir untuk mobil dan motor dengan peralatan khusus masing-masing tipe kendaraan.",
+    icon: "🛠️",
+  },
+  {
+    title: "Alat Diagnostik OBD Komputer",
+    desc: "Peralatan scanner modern untuk membaca data sistem kelistrikan dan ECU kendaraan secara presisi.",
+    icon: "💻",
+  },
+  {
+    title: "Peralatan Spooring & Balancing",
+    desc: "Mesin balancing dan peralatan alignment roda untuk memastikan stabilitas dan kenyamanan berkendara.",
+    icon: "🎯",
+  },
+  {
+    title: "Ruang Tunggu Bersih & Nyaman",
+    desc: "Area tunggu bagi pelanggan yang dilengkapi tempat duduk nyaman dan koneksi Wi-Fi selama servis.",
+    icon: "☕",
+  },
+  {
+    title: "Penyimpanan Spare Part Terorganisir",
+    desc: "Stok suku cadang rutin seperti oli, filter, dan kampas rem tersimpan rapi dan siap pasang.",
+    icon: "📦",
+  },
+  {
+    title: "Standar Keselamatan Kerja",
+    desc: "Peralatan angkat (car lift & jack stand) bersertifikasi untuk keamanan teknisi dan kendaraan.",
+    icon: "🛡️",
+  },
+];
+
+const milestones = [
+  {
+    year: "2017",
+    title: "Awal Berdiri di Semarang",
+    desc: "FindFix dirintis sebagai bengkel perawatan kendaraan dengan fokus memberikan alternatif servis terjangkau dan berkualitas bagi masyarakat Semarang.",
+  },
+  {
+    year: "2019",
+    title: "Ekspansi Layanan Mobil & Motor",
+    desc: "Menanggapi tingginya kebutuhan pelanggan, FindFix memperluas area kerja dan fasilitas agar dapat melayani kendaraan roda empat dan roda dua secara optimal.",
+  },
+  {
+    year: "2021",
+    title: "Modernisasi Alat Diagnostik",
+    desc: "Mengadopsi scanner diagnostik digital untuk mendukung kendaraan injeksi dan teknologi kelistrikan modern.",
+  },
+  {
+    year: "Hingga Kini",
+    title: "Komitmen Kualitas & Kepercayaan",
+    desc: "Terus melayani ratusan pemilik kendaraan di Semarang dengan memegang teguh prinsip keterbukaan, harga bersahabat, dan garansi pengerjaan.",
+  },
+];
+---
+
+<Layout
+  title="Tentang FindFix - Bengkel Mobil & Motor Semarang Sejak 2017"
+  description="Profil FindFix, bengkel umum mobil dan motor terpercaya di Semarang sejak 2017. Kenali visi, misi, nilai utama, fasilitas, serta komitmen pelayanan kami."
+>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Tentang Kami</span>
+      </nav>
+
+      <div class="about-hero-grid">
+        <div class="about-hero-text">
+          <p class="section-eyebrow">Profil Bengkel</p>
+          <h1>Tentang FindFix Automotive Service Center</h1>
+          <p class="hero-desc">
+            FindFix merupakan bengkel umum mobil dan motor yang telah melayani pelanggan sejak 2017 di Semarang. Kami berdedikasi memberikan perawatan dan perbaikan kendaraan yang berkualitas, transparan, dan terjangkau bagi semua kalangan.
+          </p>
+          <div class="hero-actions" style="margin-top: 28px;">
+            <a href="/booking" class="btn btn-primary btn-lg">Booking Servis</a>
+            <a href="/layanan" class="btn btn-outline-white btn-lg">Lihat Layanan</a>
+          </div>
+        </div>
+
+        <div class="about-hero-stat-card">
+          <div class="since-card">
+            <span class="since-year">{SITE.established}</span>
+            <span class="since-label">Tahun Berdiri di Semarang</span>
+            <div class="since-tagline">"{SITE.tagline}"</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Overview & Story -->
+  <section class="section about-story-section">
+    <div class="container story-grid">
+      <div class="story-image-column">
+        <div class="story-img-frame">
+          <img
+            src="https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800&q=80"
+            alt="Suasana workshop FindFix Semarang"
+            class="story-img"
+            loading="lazy"
+          />
+        </div>
+      </div>
+
+      <div class="story-text-column">
+        <p class="section-eyebrow">Cerita Kami</p>
+        <h2 class="section-title">Solusi Terpercaya Perawatan Mobil &amp; Motor Sejak 2017</h2>
+        <p class="story-paragraph">
+          Didirikan di Semarang pada tahun 2017, FindFix hadir sebagai jawaban atas kebutuhan pemilik kendaraan akan bengkel yang tidak hanya kompeten secara teknis, tetapi juga jujur dan terbuka dalam setiap proses transaksi.
+        </p>
+        <p class="story-paragraph">
+          Kami memahami bahwa kendaraan—baik sepeda motor untuk mobilitas harian maupun mobil keluarga—merupakan aset berharga penunjang aktivitas. Oleh karena itu, setiap perbaikan di FindFix dilakukan dengan ketelitian tinggi, didukung peralatan yang memadai, serta selalu meminta persetujuan pemilik sebelum melakukan tindakan penggantian suku cadang.
+        </p>
+
+        <div class="story-highlights">
+          <div class="story-highlight-item">
+            <div class="highlight-check">✓</div>
+            <div>
+              <strong>Harga Kompetitif &amp; Transparan</strong>
+              <p>Rincian estimasi biaya disampaikan di muka sebelum teknisi memulai pekerjaan.</p>
+            </div>
+          </div>
+          <div class="story-highlight-item">
+            <div class="highlight-check">✓</div>
+            <div>
+              <strong>Garansi Pengerjaan</strong>
+              <p>Kepastian rasa aman berkendara melalui garansi servis sesuai ketentuan yang berlaku.</p>
+            </div>
+          </div>
+          <div class="story-highlight-item">
+            <div class="highlight-check">✓</div>
+            <div>
+              <strong>Layanan 2-in-1 (Mobil &amp; Motor)</strong>
+              <p>Satu tempat terpercaya untuk seluruh kebutuhan armada dan kendaraan pribadi Anda.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- History Timeline -->
+  <section class="section section-offwhite timeline-section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 56px;">
+        <p class="section-eyebrow" style="margin: 0 auto 12px;">Jejak Perjalanan</p>
+        <h2 class="section-title">Perjalanan FindFix Melayani Semarang</h2>
+        <p class="section-desc" style="margin: 0 auto;">Langkah demi langkah dalam membangun standar layanan bengkel yang dapat diandalkan.</p>
+      </div>
+
+      <div class="timeline-grid">
+        {milestones.map((item, i) => (
+          <div class="timeline-card">
+            <span class="timeline-year">{item.year}</span>
+            <h3 class="timeline-title">{item.title}</h3>
+            <p class="timeline-desc">{item.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Vision & Mission -->
+  <section class="section vision-mission-section">
+    <div class="container">
+      <div class="vm-grid">
+        <!-- Vision -->
+        <div class="vm-card vision-card">
+          <div class="vm-icon" aria-hidden="true">🎯</div>
+          <p class="section-eyebrow" style="color: var(--color-orange); margin-bottom: 8px;">Visi Kami</p>
+          <h3 class="vm-title">Visi FindFix</h3>
+          <p class="vm-text">
+            "Menjadi bengkel pilihan masyarakat yang terpercaya dengan menghadirkan layanan perawatan dan perbaikan kendaraan berkualitas, terjangkau, dan mudah diakses."
+          </p>
+        </div>
+
+        <!-- Mission -->
+        <div class="vm-card mission-card">
+          <div class="vm-icon" aria-hidden="true">🚀</div>
+          <p class="section-eyebrow" style="color: var(--color-orange); margin-bottom: 8px;">Misi Kami</p>
+          <h3 class="vm-title">Misi FindFix</h3>
+          <ul class="mission-list">
+            <li>
+              <span class="mission-num">1</span>
+              <span>Memberikan layanan perawatan dan perbaikan kendaraan dengan harga kompetitif.</span>
+            </li>
+            <li>
+              <span class="mission-num">2</span>
+              <span>Mengutamakan kualitas pengerjaan dan kepuasan pelanggan.</span>
+            </li>
+            <li>
+              <span class="mission-num">3</span>
+              <span>Menyediakan pelayanan yang responsif dan profesional.</span>
+            </li>
+            <li>
+              <span class="mission-num">4</span>
+              <span>Memberikan garansi pada layanan sesuai ketentuan.</span>
+            </li>
+            <li>
+              <span class="mission-num">5</span>
+              <span>Mengembangkan pelayanan bengkel yang modern, transparan, dan mudah dijangkau.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Brand Values -->
+  <section class="section section-dark values-section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 56px;">
+        <p class="section-eyebrow" style="color: var(--color-orange); margin: 0 auto 12px;">Fondasi Kerja</p>
+        <h2 class="section-title">Nilai-Nilai Utama FindFix</h2>
+        <p class="section-desc" style="margin: 0 auto; color: rgba(255,255,255,0.65);">
+          Prinsip dasar yang menjadi pedoman teknisi dan seluruh tim kami dalam melayani Anda setiap hari.
+        </p>
+      </div>
+
+      <div class="values-grid">
+        {values.map((val) => (
+          <div class="value-card">
+            <div class="value-icon">{val.icon}</div>
+            <h3 class="value-title">{val.title}</h3>
+            <p class="value-desc">{val.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshop Facilities -->
+  <section class="section facilities-section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+        <p class="section-eyebrow" style="margin: 0 auto 12px;">Fasilitas &amp; Peralatan</p>
+        <h2 class="section-title">Fasilitas Bengkel FindFix</h2>
+        <p class="section-desc" style="margin: 0 auto;">Didukung fasilitas kerja terawat untuk menjamin hasil perbaikan kendaraan yang optimal.</p>
+      </div>
+
+      <div class="facilities-grid">
+        {facilities.map((fac) => (
+          <div class="facility-card">
+            <div class="facility-icon-wrap">{fac.icon}</div>
+            <h3 class="facility-title">{fac.title}</h3>
+            <p class="facility-desc">{fac.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Team & Technician Commitment -->
+  <section class="section section-slate team-commitment-section">
+    <div class="container team-commitment-grid">
+      <div class="team-text">
+        <p class="section-eyebrow" style="color: var(--color-orange);">Tim Mekanik Kami</p>
+        <h2 class="section-title" style="color: white;">Teknisi Berpengalaman &amp; Berdedikasi</h2>
+        <p style="color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 20px;">
+          Di balik setiap perbaikan kendaraan di FindFix, terdapat tim teknisi yang berdedikasi tinggi dan memiliki pemahaman mendalam tentang sistem mekanikal, elektrikal, dan pendingin pada mobil maupun motor.
+        </p>
+        <p style="color: rgba(255,255,255,0.75); line-height: 1.7; margin-bottom: 28px;">
+          Kami menjunjung tinggi budaya kerja yang teliti dan transparan. Sebelum menyentuh baut atau mengganti part, teknisi kami selalu memastikan diagnosis awal akurat serta menjelaskan opsi solusi kepada pemilik kendaraan.
+        </p>
+
+        <div class="commitment-bullets">
+          <div class="commitment-item">
+            <span class="commitment-icon">✓</span>
+            <span style="color: white; font-weight: 500;">Pemeriksaan bertahap sesuai checklist standar</span>
+          </div>
+          <div class="commitment-item">
+            <span class="commitment-icon">✓</span>
+            <span style="color: white; font-weight: 500;">Penjelasan kondisi komponen yang aus secara jujur</span>
+          </div>
+          <div class="commitment-item">
+            <span class="commitment-icon">✓</span>
+            <span style="color: white; font-weight: 500;">Uji fungsi dan pengecekan akhir sebelum kendaraan diserahkan</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="team-media">
+        <img
+          src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800&q=80"
+          alt="Teknisi FindFix melakukan inspeksi kendaraan"
+          class="team-img"
+          loading="lazy"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="section section-dark final-cta">
+    <div class="container" style="text-align: center;">
+      <p class="section-eyebrow" style="color: var(--color-orange); margin: 0 auto 16px;">Kunjungi Bengkel Kami</p>
+      <h2 style="max-width: 18ch; margin: 0 auto 20px;">Rasakan Pengalaman Servis Kendaraan yang Menyenangkan</h2>
+      <p class="section-desc" style="margin: 0 auto 36px; color: rgba(255,255,255,0.65);">
+        Percayakan perawatan dan perbaikan kendaraan Anda kepada FindFix Semarang. Hubungi kami untuk konsultasi atau langsung buat jadwal kunjungan.
+      </p>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="/booking" class="btn btn-primary btn-lg">Booking Servis Sekarang</a>
+        <a href={waLink("Halo FindFix! Saya ingin konsultasi servis kendaraan.")} target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-lg">
+          Hubungi via WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.about-hero-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 24px;
+}
+.about-hero-text h1 {
+  color: white;
+  margin-bottom: 16px;
+}
+.about-hero-stat-card {
+  display: flex;
+  justify-content: center;
+}
+.since-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  max-width: 320px;
+  width: 100%;
+}
+.since-year {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: var(--color-orange);
+  line-height: 1;
+  margin-bottom: 8px;
+}
+.since-label {
+  display: block;
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 16px;
+}
+.since-tagline {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-style: italic;
+  color: white;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 14px;
+}
+
+/* Story Section */
+.story-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 56px;
+  align-items: center;
+}
+.story-img-frame {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+}
+.story-img {
+  width: 100%;
+  height: 480px;
+  object-fit: cover;
+  display: block;
+}
+.story-paragraph {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-slate);
+  margin-bottom: 16px;
+}
+.story-highlights {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+}
+.story-highlight-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.highlight-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.story-highlight-item strong {
+  display: block;
+  font-size: 1rem;
+  color: var(--color-navy);
+  margin-bottom: 2px;
+}
+.story-highlight-item p {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Timeline */
+.timeline-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.timeline-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  position: relative;
+  transition: all var(--transition-base);
+}
+.timeline-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-orange);
+}
+.timeline-year {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-orange);
+  display: block;
+  margin-bottom: 12px;
+}
+.timeline-title {
+  font-size: 1.0625rem;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+.timeline-desc {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+}
+
+/* Vision Mission */
+.vm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.vm-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+}
+.vision-card {
+  border-top: 4px solid var(--color-orange);
+}
+.mission-card {
+  border-top: 4px solid var(--color-navy);
+}
+.vm-icon {
+  font-size: 2.25rem;
+  margin-bottom: 16px;
+}
+.vm-title {
+  font-size: 1.5rem;
+  color: var(--color-navy);
+  margin-bottom: 16px;
+}
+.vm-text {
+  font-size: 1.125rem;
+  color: var(--color-slate);
+  line-height: 1.7;
+  font-style: italic;
+}
+.mission-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.mission-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.9375rem;
+  color: var(--color-slate);
+  line-height: 1.6;
+}
+.mission-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(16, 27, 43, 0.08);
+  color: var(--color-navy);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Values Grid */
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+}
+.value-card {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: all var(--transition-base);
+}
+.value-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(244, 123, 53, 0.4);
+  transform: translateY(-2px);
+}
+.value-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+.value-title {
+  font-size: 1.125rem;
+  color: white;
+  margin-bottom: 10px;
+}
+.value-desc {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.65;
+}
+
+/* Facilities */
+.facilities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.facility-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all var(--transition-base);
+}
+.facility-card:hover {
+  border-color: var(--color-orange);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.facility-icon-wrap {
+  font-size: 2rem;
+}
+.facility-title {
+  font-size: 1.1rem;
+  color: var(--color-navy);
+}
+.facility-desc {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+}
+
+/* Team Section */
+.team-commitment-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 48px;
+  align-items: center;
+}
+.commitment-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.commitment-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.commitment-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+  flex-shrink: 0;
+}
+.team-media {
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: 0 12px 36px rgba(0,0,0,0.3);
+}
+.team-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 1024px) {
+  .about-hero-grid,
+  .story-grid,
+  .vm-grid,
+  .team-commitment-grid {
+    grid-template-columns: 1fr;
+  }
+  .timeline-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .facilities-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .timeline-grid,
+  .facilities-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>

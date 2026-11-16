@@ -1,11 +1,1384 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
+import { SITE, waLink } from '../config/site';
+import { getFeaturedServices, SERVICES } from '../data/services';
+import { ARTICLES, ARTICLE_CATEGORIES } from '../data/articles';
+import { PROMOS } from '../data/promos';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const featuredServices = getFeaturedServices().slice(0, 6);
+const latestArticles = ARTICLES.slice(0, 3);
+const featuredPromos = PROMOS.filter(p => p.featured).slice(0, 3);
+
+const trustStats = [
+  { label: "Melayani Sejak", value: "2017", icon: "🏆" },
+  { label: "Layanan", value: "Mobil & Motor", icon: "🚗" },
+  { label: "Harga", value: "Kompetitif", icon: "💰" },
+  { label: "Garansi", value: "Layanan", icon: "✅" },
+];
+
+const whyUs = [
+  {
+    icon: "M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z",
+    title: "Harga Lebih Bersahabat",
+    desc: "Harga kompetitif dan transparan. Estimasi biaya disampaikan sebelum perbaikan dimulai.",
+  },
+  {
+    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+    title: "Pengerjaan Profesional",
+    desc: "Tim teknisi berpengalaman yang mengutamakan standar kualitas dalam setiap pengerjaan.",
+  },
+  {
+    icon: "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z",
+    title: "Garansi Layanan",
+    desc: "Layanan perbaikan disertai garansi sesuai ketentuan yang berlaku.",
+  },
+  {
+    icon: "M13 10V3L4 14h7v7l9-11h-7z",
+    title: "Proses Lebih Efisien",
+    desc: "Proses pelayanan terorganisir untuk meminimalkan waktu tunggu kendaraan.",
+  },
+  {
+    icon: "M15 12a3 3 0 11-6 0 3 3 0 016 0z M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z",
+    title: "Pemeriksaan Transparan",
+    desc: "Setiap kondisi kendaraan dijelaskan secara jelas. Perbaikan hanya dilakukan atas persetujuan.",
+  },
+  {
+    icon: "M9 17a2 2 0 11-4 0 2 2 0 014 0zM19 17a2 2 0 11-4 0 2 2 0 014 0z M13 16V6a1 1 0 00-1-1H4a1 1 0 00-1 1v10a1 1 0 001 1h1m8-1a1 1 0 01-1 1H9m4-1V8a1 1 0 011-1h2.586a1 1 0 01.707.293l3.414 3.414a1 1 0 01.293.707V16a1 1 0 01-1 1h-1m-6-1a1 1 0 001 1h1M5 17a2 2 0 104 0m-4 0a2 2 0 114 0m6 0a2 2 0 104 0m-4 0a2 2 0 114 0",
+    title: "Mobil dan Motor",
+    desc: "Layanan lengkap untuk kendaraan roda empat maupun roda dua dalam satu bengkel.",
+  },
+];
+
+const steps = [
+  { num: "01", title: "Pilih Layanan", desc: "Tentukan jenis layanan yang dibutuhkan atau konsultasikan keluhan kendaraan Anda." },
+  { num: "02", title: "Buat Booking", desc: "Isi informasi kendaraan dan pilih jadwal kunjungan yang sesuai." },
+  { num: "03", title: "Pemeriksaan", desc: "Teknisi memeriksa kondisi kendaraan dan menyampaikan estimasi biaya kepada Anda." },
+  { num: "04", title: "Pengerjaan & Garansi", desc: "Perbaikan dilakukan setelah mendapat persetujuan. Garansi diberikan sesuai ketentuan." },
+];
+
+const faqs = [
+  { q: "Apakah FindFix melayani mobil dan motor?", a: "Ya, FindFix melayani perawatan dan perbaikan untuk kendaraan roda empat (mobil) maupun roda dua (motor) dalam satu bengkel." },
+  { q: "Apakah harus booking sebelum datang?", a: "Booking sebelumnya sangat dianjurkan untuk memastikan ketersediaan teknisi dan meminimalkan waktu tunggu. Namun, pelanggan walk-in juga dilayani sesuai kapasitas." },
+  { q: "Bagaimana cara mengetahui estimasi biaya servis?", a: "Estimasi biaya akan disampaikan setelah pemeriksaan awal kendaraan. Perbaikan hanya dilakukan setelah mendapat persetujuan pelanggan." },
+  { q: "Apakah tersedia garansi pengerjaan?", a: "Ya, layanan perbaikan FindFix disertai garansi sesuai ketentuan yang berlaku. Detail garansi diinformasikan saat proses servis." },
+  { q: "Apakah FindFix menjual spare part?", a: "Ya, FindFix menyediakan berbagai suku cadang kendaraan. Hubungi kami untuk ketersediaan dan harga spare part yang Anda butuhkan." },
+  { q: "Apakah tersedia layanan darurat?", a: "FindFix dapat dihubungi melalui WhatsApp untuk konsultasi darurat dan panduan penanganan awal. Hubungi kami untuk informasi lebih lanjut." },
+  { q: "Berapa lama waktu pengerjaan servis?", a: "Waktu pengerjaan bervariasi tergantung jenis layanan. Servis ringan umumnya 30–90 menit, sementara perbaikan kompleks bisa memerlukan waktu lebih lama. Estimasi waktu akan disampaikan sebelum pengerjaan." },
+  { q: "Bagaimana cara melakukan booking?", a: "Booking dapat dilakukan melalui halaman Booking di website ini, atau langsung melalui WhatsApp. Setelah mengisi form, tim FindFix akan mengkonfirmasi jadwal Anda." },
+];
+
+const galleryImages = [
+  { src: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=600&q=80", alt: "Mekanik memeriksa mesin mobil di bengkel FindFix" },
+  { src: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=600&q=80", alt: "Perawatan motor di bengkel FindFix" },
+  { src: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&q=80", alt: "Pemeriksaan kendaraan oleh teknisi FindFix" },
+  { src: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80", alt: "Proses tune up mesin mobil" },
+  { src: "https://images.unsplash.com/photo-1562813733-b31f71025d54?w=600&q=80", alt: "Pemeriksaan sistem rem kendaraan" },
+  { src: "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?w=600&q=80", alt: "Pemeriksaan sistem kelistrikan kendaraan" },
+];
+
+const testimonials = [
+  { name: "Budi S.", vehicle: "Honda Jazz 2019", rating: 5, text: "Pelayanan ramah, harga sesuai estimasi, dan pengerjaan cepat. Sudah beberapa kali servis di sini dan selalu puas." },
+  { name: "Dian R.", vehicle: "Yamaha NMAX", rating: 5, text: "Motor matic saya bermasalah di CVT. Teknisi menjelaskan masalahnya dengan detail sebelum perbaikan. Recommended!" },
+  { name: "Eko P.", vehicle: "Toyota Avanza 2018", rating: 5, text: "Ganti oli sekaligus servis berkala. Harga kompetitif, pelayanan profesional. Pasti balik lagi ke FindFix." },
+];
 ---
 
-<Layout>
-	<Welcome />
+<Layout
+  title="FindFix - Bengkel Mobil & Motor Semarang"
+  description="FindFix bengkel umum mobil dan motor di Semarang. Perawatan, perbaikan, dan servis kendaraan dengan harga kompetitif, pengerjaan profesional, dan pelayanan terpercaya sejak 2017."
+>
+
+<!-- ═══ HERO ════════════════════════════════════════════════ -->
+<section class="hero" aria-label="Hero FindFix">
+  <div class="hero-bg">
+    <img
+      src="https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=1600&q=85"
+      alt="Bengkel FindFix - Workshop otomotif profesional"
+      class="hero-img"
+      loading="eager"
+      fetchpriority="high"
+    />
+    <div class="hero-overlay"></div>
+  </div>
+
+  <div class="container hero-content">
+    <div class="hero-text">
+      <p class="hero-eyebrow" data-animate data-delay="0">
+        BENGKEL MOBIL &amp; MOTOR • SEMARANG
+      </p>
+      <h1 class="hero-title" data-animate data-delay="100">
+        Perawatan Tepat.<br/>
+        <span class="hero-title-accent">Perjalanan</span><br/>
+        Lebih Aman.
+      </h1>
+      <p class="hero-desc" data-animate data-delay="200">
+        Solusi perawatan dan perbaikan mobil maupun motor dengan harga bersahabat, pengerjaan profesional, dan pelayanan terpercaya.
+      </p>
+      <div class="hero-actions" data-animate data-delay="300">
+        <a href="/booking" class="btn btn-primary btn-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          Booking Servis
+        </a>
+        <a href="/layanan" class="btn btn-outline-white btn-lg">
+          Jelajahi Layanan
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </a>
+      </div>
+      <div class="hero-trust" data-animate data-delay="400">
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" class="trust-icon" aria-hidden="true"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          Melayani sejak 2017
+        </div>
+        <div class="trust-sep" aria-hidden="true">•</div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trust-icon" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Harga kompetitif
+        </div>
+        <div class="trust-sep" aria-hidden="true">•</div>
+        <div class="trust-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="trust-icon" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          Garansi layanan
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero Stats Card -->
+    <div class="hero-card" data-animate data-delay="300">
+      <div class="hero-card-inner">
+        <div class="hero-card-header">
+          <span class="hero-card-badge">FindFix Semarang</span>
+        </div>
+        <div class="hero-card-stats">
+          <div class="hero-stat">
+            <span class="hero-stat-num">2017</span>
+            <span class="hero-stat-label">Berdiri Sejak</span>
+          </div>
+          <div class="hero-stat-divider" aria-hidden="true"></div>
+          <div class="hero-stat">
+            <span class="hero-stat-num">2 in 1</span>
+            <span class="hero-stat-label">Mobil & Motor</span>
+          </div>
+        </div>
+        <div class="hero-card-services">
+          <div class="hero-service-tag">🔧 Servis Berkala</div>
+          <div class="hero-service-tag">🛠️ Perbaikan Mesin</div>
+          <div class="hero-service-tag">🔋 Kelistrikan</div>
+          <div class="hero-service-tag">❄️ Servis AC</div>
+          <div class="hero-service-tag">⚙️ Transmisi</div>
+          <div class="hero-service-tag">🏍️ Servis Motor</div>
+        </div>
+        <a href="/booking" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:4px;">
+          Booking Sekarang →
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll Indicator -->
+  <div class="hero-scroll" aria-hidden="true">
+    <div class="scroll-dot"></div>
+  </div>
+</section>
+
+<!-- ═══ TRUST STATS BAR ══════════════════════════════════════ -->
+<section class="trust-bar" aria-label="Keunggulan FindFix">
+  <div class="container trust-bar-grid">
+    {trustStats.map((stat, i) => (
+      <div class="trust-bar-item" data-animate data-delay={String(i * 100)}>
+        <span class="trust-bar-icon" aria-hidden="true">{stat.icon}</span>
+        <div>
+          <div class="trust-bar-value">{stat.value}</div>
+          <div class="trust-bar-label">{stat.label}</div>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<!-- ═══ ABOUT PREVIEW ═══════════════════════════════════════ -->
+<section class="section about-preview">
+  <div class="container about-preview-grid">
+    <div class="about-preview-img" data-animate>
+      <img
+        src="https://images.unsplash.com/photo-1537041373723-1c7ea30b4e44?w=800&q=80"
+        alt="Interior bengkel FindFix yang modern dan profesional"
+        loading="lazy"
+        class="about-img"
+      />
+      <div class="about-badge">
+        <span class="about-badge-num">2017</span>
+        <span class="about-badge-text">Melayani<br/>Sejak</span>
+      </div>
+    </div>
+    <div class="about-preview-text" data-animate data-delay="200">
+      <p class="section-eyebrow">Tentang FindFix</p>
+      <h2 class="section-title">Lebih dari Sekadar Bengkel.</h2>
+      <p class="about-desc">
+        FindFix merupakan bengkel umum mobil dan motor yang telah melayani pelanggan sejak 2017 di Semarang. Kami mengutamakan harga kompetitif, kualitas pengerjaan, serta pelayanan yang cepat dan terpercaya.
+      </p>
+      <p class="about-desc" style="margin-top:16px;">
+        Setiap kendaraan yang masuk ke FindFix mendapatkan perhatian penuh dari teknisi berpengalaman kami. Kami percaya bahwa transparansi dan komunikasi yang baik adalah fondasi kepercayaan pelanggan.
+      </p>
+      <div class="about-values">
+        <div class="about-value">
+          <div class="about-value-dot"></div>
+          <span>Harga transparan</span>
+        </div>
+        <div class="about-value">
+          <div class="about-value-dot"></div>
+          <span>Perbaikan atas persetujuan pelanggan</span>
+        </div>
+        <div class="about-value">
+          <div class="about-value-dot"></div>
+          <span>Garansi pengerjaan</span>
+        </div>
+        <div class="about-value">
+          <div class="about-value-dot"></div>
+          <span>Layanan mobil dan motor</span>
+        </div>
+      </div>
+      <a href="/tentang-kami" class="btn btn-ghost">
+        Pelajari Lebih Lanjut
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICES OVERVIEW ════════════════════════════════════ -->
+<section class="section section-dark services-section" aria-label="Layanan FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow" style="color:var(--color-orange)">Layanan Kami</p>
+      <h2 class="section-title">Solusi Lengkap untuk<br/>Kendaraan Anda.</h2>
+      <p class="section-desc">Layanan perawatan dan perbaikan lengkap untuk mobil dan motor — dari servis rutin hingga perbaikan kompleks.</p>
+    </div>
+
+    <div class="services-grid">
+      {[
+        { name: "Servis Berkala", icon: "⚙️", href: "/layanan/servis-berkala-mobil", desc: "Perawatan rutin sesuai jadwal pabrikan" },
+        { name: "Perbaikan Mesin", icon: "🔧", href: "/layanan/perbaikan-mesin-mobil", desc: "Diagnosis dan perbaikan masalah mesin" },
+        { name: "Ganti Oli", icon: "🛢️", href: "/layanan/ganti-oli-mobil", desc: "Oli berkualitas untuk mesin yang terlindungi" },
+        { name: "Servis AC", icon: "❄️", href: "/layanan/servis-ac-mobil", desc: "Perawatan AC untuk kabin yang nyaman" },
+        { name: "Rem & Kaki-kaki", icon: "🛞", href: "/layanan/perbaikan-rem-mobil", desc: "Sistem pengereman dan suspensi optimal" },
+        { name: "Kelistrikan", icon: "⚡", href: "/layanan/kelistrikan-mobil", desc: "Diagnosis dan perbaikan sistem listrik" },
+        { name: "Transmisi", icon: "⛓️", href: "/layanan/servis-transmisi-mobil", desc: "Perawatan sistem transmisi manual & matic" },
+        { name: "Servis Motor", icon: "🏍️", href: "/layanan/servis-ringan-motor", desc: "Layanan lengkap untuk motor kesayangan" },
+        { name: "Spooring & Balancing", icon: "🎯", href: "/layanan/spooring-balancing", desc: "Penyetelan roda untuk berkendara nyaman" },
+        { name: "Body Repair", icon: "🚗", href: "/layanan/body-repair-pengecatan", desc: "Perbaikan bodi dan pengecatan kendaraan" },
+      ].map((svc, i) => (
+        <a href={svc.href} class="svc-card" data-animate data-delay={String((i % 5) * 100)}>
+          <span class="svc-icon" aria-hidden="true">{svc.icon}</span>
+          <h3 class="svc-name">{svc.name}</h3>
+          <p class="svc-desc">{svc.desc}</p>
+          <span class="svc-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="section-cta" data-animate>
+      <a href="/layanan" class="btn btn-outline-white btn-lg">
+        Lihat Semua Layanan
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHY FINDFIX ══════════════════════════════════════════ -->
+<section class="section why-section" aria-label="Mengapa memilih FindFix">
+  <div class="container">
+    <div class="why-header" data-animate>
+      <p class="section-eyebrow">Keunggulan Kami</p>
+      <h2 class="section-title">Kenapa Memilih<br/>FindFix?</h2>
+    </div>
+    <div class="why-grid">
+      {whyUs.map((item, i) => (
+        <div class="why-card" data-animate data-delay={String((i % 3) * 150)}>
+          <div class="why-icon-wrap" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d={item.icon}/>
+            </svg>
+          </div>
+          <h3 class="why-title">{item.title}</h3>
+          <p class="why-desc">{item.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED SERVICES ════════════════════════════════════ -->
+<section class="section section-slate featured-section" aria-label="Layanan unggulan">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow" style="color:var(--color-orange)">Layanan Unggulan</p>
+      <h2 class="section-title">Layanan yang Paling<br/>Sering Dibutuhkan.</h2>
+    </div>
+    <div class="featured-grid">
+      {featuredServices.map((svc, i) => (
+        <div class="featured-card" data-animate data-delay={String((i % 3) * 100)}>
+          <div class="featured-img-wrap">
+            <img
+              src={svc.image}
+              alt={svc.name}
+              loading="lazy"
+              class="featured-img"
+            />
+            <span class="featured-category-badge">{svc.category === 'mobil' ? 'Mobil' : svc.category === 'motor' ? 'Motor' : 'Umum'}</span>
+          </div>
+          <div class="featured-body">
+            <h3 class="featured-title">{svc.name}</h3>
+            <p class="featured-desc">{svc.shortDesc}</p>
+            <div class="featured-meta">
+              <span class="featured-price">{svc.startingPrice}</span>
+              <a href={`/layanan/${svc.slug}`} class="btn btn-ghost" style="padding:0;font-size:0.875rem;">
+                Detail
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SERVICE PROCESS ══════════════════════════════════════ -->
+<section class="section process-section" aria-label="Proses servis FindFix">
+  <div class="container">
+    <div class="process-header" data-animate>
+      <p class="section-eyebrow">Cara Kerja</p>
+      <h2 class="section-title">Servis Lebih Mudah,<br/>Tanpa Ribet.</h2>
+      <p class="section-desc">Proses yang terstruktur untuk pengalaman servis yang nyaman dan transparan.</p>
+    </div>
+    <div class="process-steps">
+      {steps.map((step, i) => (
+        <div class="process-step" data-animate data-delay={String(i * 150)}>
+          <div class="step-num-wrap">
+            <span class="step-num">{step.num}</span>
+            {i < steps.length - 1 && <div class="step-line" aria-hidden="true"></div>}
+          </div>
+          <div class="step-content">
+            <h3 class="step-title">{step.title}</h3>
+            <p class="step-desc">{step.desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+    <div class="process-cta" data-animate>
+      <a href="/booking" class="btn btn-primary btn-lg">
+        Mulai Booking Sekarang
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PRICING PREVIEW ══════════════════════════════════════ -->
+<section class="section section-dark pricing-preview" aria-label="Harga layanan FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow" style="color:var(--color-orange)">Harga</p>
+      <h2 class="section-title">Perawatan Berkualitas,<br/>Harga Bersahabat.</h2>
+      <p class="section-desc" style="color:rgba(255,255,255,0.5);">
+        Estimasi harga awal layanan FindFix. Harga final ditentukan setelah pemeriksaan kendaraan.
+      </p>
+    </div>
+
+    <div class="pricing-preview-grid">
+      {[
+        { name: "Ganti Oli Motor", cat: "Motor", price: "Mulai Rp 45.000", href: "/harga" },
+        { name: "Servis Ringan Motor", cat: "Motor", price: "Mulai Rp 75.000", href: "/harga" },
+        { name: "Ganti Oli Mobil", cat: "Mobil", price: "Mulai Rp 100.000", href: "/harga" },
+        { name: "Servis Berkala Mobil", cat: "Mobil", price: "Mulai Rp 250.000", href: "/harga" },
+        { name: "Tune Up Mobil", cat: "Mobil", price: "Mulai Rp 200.000", href: "/harga" },
+        { name: "Pemeriksaan Kendaraan", cat: "Umum", price: "Mulai Rp 50.000", href: "/harga" },
+      ].map((item, i) => (
+        <div class="price-row" data-animate data-delay={String((i % 3) * 100)}>
+          <div class="price-row-left">
+            <span class="price-cat-badge">{item.cat}</span>
+            <span class="price-name">{item.name}</span>
+          </div>
+          <span class="price-value">{item.price}</span>
+        </div>
+      ))}
+    </div>
+
+    <div class="pricing-disclaimer" data-animate>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>Harga di atas adalah estimasi awal. Harga final ditentukan setelah pemeriksaan kendaraan. Belum termasuk suku cadang.</span>
+    </div>
+
+    <div class="section-cta" data-animate>
+      <a href="/harga" class="btn btn-outline-white btn-lg">Lihat Daftar Harga Lengkap</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ SPARE PARTS PREVIEW ══════════════════════════════════ -->
+<section class="section sparepart-preview" aria-label="Spare part FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow">Spare Part</p>
+      <h2 class="section-title">Komponen Berkualitas<br/>untuk Performa Kendaraan.</h2>
+      <p class="section-desc">Berbagai pilihan suku cadang kendaraan tersedia di FindFix. Tanya ketersediaan melalui WhatsApp.</p>
+    </div>
+
+    <div class="sparepart-categories" data-animate>
+      {[
+        { icon: "🛢️", name: "Oli & Pelumas" },
+        { icon: "🔽", name: "Filter" },
+        { icon: "🛑", name: "Sistem Rem" },
+        { icon: "⚡", name: "Kelistrikan" },
+        { icon: "🔩", name: "Komponen Mesin" },
+        { icon: "🛞", name: "Kaki-Kaki" },
+        { icon: "⭕", name: "Ban" },
+        { icon: "📦", name: "Aksesori" },
+      ].map(cat => (
+        <a href="/spare-part" class="sparepart-cat">
+          <span class="sparepart-cat-icon" aria-hidden="true">{cat.icon}</span>
+          <span class="sparepart-cat-name">{cat.name}</span>
+        </a>
+      ))}
+    </div>
+
+    <div class="section-cta" data-animate>
+      <a href="/spare-part" class="btn btn-primary btn-lg">Lihat Katalog Spare Part</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ PROMOTIONS ═══════════════════════════════════════════ -->
+<section class="section section-dark promo-preview" aria-label="Promo FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow" style="color:var(--color-orange)">Promo & Paket</p>
+      <h2 class="section-title">Penawaran Hemat<br/>dari FindFix.</h2>
+      <p class="section-desc" style="color:rgba(255,255,255,0.5);">
+        <span class="demo-note">Promo berikut merupakan contoh penawaran. Hubungi FindFix untuk promo yang sedang aktif.</span>
+      </p>
+    </div>
+
+    <div class="promo-grid">
+      {featuredPromos.map((promo, i) => (
+        <div class="promo-card" data-animate data-delay={String(i * 150)}>
+          <div class="promo-img-wrap">
+            <img src={promo.image} alt={promo.title} loading="lazy" class="promo-img" />
+            {promo.badge && <span class="promo-badge">{promo.badge}</span>}
+          </div>
+          <div class="promo-body">
+            <h3 class="promo-title">{promo.title}</h3>
+            <p class="promo-subtitle">{promo.subtitle}</p>
+            <div class="promo-price-row">
+              {promo.originalPrice && <span class="promo-orig-price">{promo.originalPrice}</span>}
+              <span class="promo-final-price">{promo.promoPrice}</span>
+            </div>
+            <a href={waLink(`Halo FindFix! Saya tertarik dengan penawaran "${promo.title}". Apakah promo ini masih tersedia?`)} target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-sm" style="width:100%;justify-content:center;margin-top:12px;">
+              Tanya Promo Ini
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="section-cta" data-animate>
+      <a href="/promo" class="btn btn-outline-white btn-lg">Lihat Semua Promo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ GALLERY PREVIEW ══════════════════════════════════════ -->
+<section class="section gallery-preview" aria-label="Galeri FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow">Galeri</p>
+      <h2 class="section-title">Melihat Lebih Dekat<br/>Proses Kami.</h2>
+    </div>
+
+    <div class="gallery-grid" data-animate>
+      {galleryImages.map((img, i) => (
+        <div class={`gallery-item ${i === 0 ? 'gallery-item-featured' : ''}`}>
+          <img src={img.src} alt={img.alt} loading="lazy" class="gallery-img" />
+          <div class="gallery-overlay" aria-hidden="true"></div>
+        </div>
+      ))}
+    </div>
+
+    <div class="section-cta" data-animate>
+      <a href="/galeri" class="btn btn-secondary btn-lg">Lihat Galeri Lengkap</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TESTIMONIALS ═════════════════════════════════════════ -->
+<section class="section testimonials-section" aria-label="Testimoni pelanggan FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow">Testimoni</p>
+      <h2 class="section-title">Pengalaman Pelanggan.</h2>
+      <p class="section-desc" style="color:var(--color-gray);">
+        <em>Konten ilustrasi — Testimoni pelanggan nyata akan ditampilkan setelah dikumpulkan.</em>
+      </p>
+    </div>
+
+    <div class="testimonials-grid">
+      {testimonials.map((t, i) => (
+        <div class="testi-card" data-animate data-delay={String(i * 150)}>
+          <div class="testi-stars" aria-label={`${t.rating} dari 5 bintang`}>
+            {Array.from({ length: t.rating }).map(() => <span aria-hidden="true">★</span>)}
+          </div>
+          <p class="testi-text">"{t.text}"</p>
+          <div class="testi-author">
+            <div class="testi-avatar" aria-hidden="true">{t.name.charAt(0)}</div>
+            <div>
+              <div class="testi-name">{t.name}</div>
+              <div class="testi-vehicle">{t.vehicle}</div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARTICLES ══════════════════════════════════════════════ -->
+<section class="section articles-preview section-dark" aria-label="Artikel FindFix">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow" style="color:var(--color-orange)">Artikel & Tips</p>
+      <h2 class="section-title">Informasi Berguna<br/>untuk Kendaraan Anda.</h2>
+    </div>
+
+    <div class="articles-grid">
+      {latestArticles.map((article, i) => (
+        <a href={`/artikel/${article.slug}`} class="article-card" data-animate data-delay={String(i * 150)}>
+          <div class="article-img-wrap">
+            <img src={article.image} alt={article.title} loading="lazy" class="article-img" />
+            <span class="article-cat">{ARTICLE_CATEGORIES.find(c => c.id === article.category)?.label || article.category}</span>
+          </div>
+          <div class="article-body">
+            <h3 class="article-title">{article.title}</h3>
+            <p class="article-excerpt">{article.excerpt}</p>
+            <div class="article-meta">
+              <span>{new Date(article.publishDate).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+              <span>•</span>
+              <span>{article.readingTime} mnt baca</span>
+            </div>
+          </div>
+        </a>
+      ))}
+    </div>
+
+    <div class="section-cta" data-animate>
+      <a href="/artikel" class="btn btn-outline-white btn-lg">Lihat Semua Artikel</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FAQ ══════════════════════════════════════════════════ -->
+<section class="section faq-section" aria-label="FAQ FindFix">
+  <div class="container faq-container">
+    <div class="section-header" data-animate>
+      <p class="section-eyebrow">FAQ</p>
+      <h2 class="section-title">Pertanyaan yang Sering<br/>Ditanyakan.</h2>
+    </div>
+
+    <div class="faq-list" data-animate>
+      {faqs.map((faq, i) => (
+        <div class="accordion-item">
+          <button
+            class="accordion-trigger"
+            aria-expanded="false"
+            aria-controls={`faq-${i}`}
+            id={`faq-btn-${i}`}
+          >
+            <span>{faq.q}</span>
+            <span class="accordion-icon" aria-hidden="true">+</span>
+          </button>
+          <div
+            class="accordion-content"
+            id={`faq-${i}`}
+            role="region"
+            aria-labelledby={`faq-btn-${i}`}
+          >
+            <div class="accordion-content-inner">{faq.a}</div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINAL CTA ═════════════════════════════════════════════ -->
+<section class="section section-dark final-cta" aria-label="CTA FindFix">
+  <div class="final-cta-bg" aria-hidden="true"></div>
+  <div class="container final-cta-content">
+    <div data-animate>
+      <p class="section-eyebrow" style="color:var(--color-orange)">Siap Membantu</p>
+      <h2 class="section-title" style="max-width:16ch;">Kendaraan Butuh Perhatian? FindFix Siap Membantu.</h2>
+      <p class="section-desc" style="color:rgba(255,255,255,0.6);max-width:52ch;">
+        Konsultasikan kebutuhan kendaraan Anda dan temukan solusi perawatan yang tepat bersama tim FindFix.
+      </p>
+      <div class="final-cta-actions">
+        <a href="/booking" class="btn btn-primary btn-lg">
+          Booking Sekarang
+        </a>
+        <a href={waLink("Halo FindFix! Saya ingin konsultasi mengenai kendaraan saya.")} target="_blank" rel="noopener noreferrer" class="btn btn-outline-white btn-lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Hubungi WhatsApp
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
 </Layout>
+
+<script>
+  // Import ARTICLE_CATEGORIES for template use
+</script>
+
+<style>
+/* ─── HERO ─────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding-top: 80px;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    105deg,
+    rgba(16,27,43,0.95) 0%,
+    rgba(16,27,43,0.8) 50%,
+    rgba(16,27,43,0.5) 100%
+  );
+}
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 48px;
+  align-items: center;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+.hero-text { max-width: 580px; }
+.hero-eyebrow {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--color-orange);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-eyebrow::before {
+  content: '';
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-orange);
+}
+.hero-title {
+  font-size: clamp(2.75rem, 6vw, 5rem);
+  font-weight: 800;
+  color: white;
+  line-height: 1.08;
+  margin-bottom: 24px;
+  letter-spacing: -0.03em;
+}
+.hero-title-accent { color: var(--color-orange); }
+.hero-desc {
+  font-size: 1.125rem;
+  color: rgba(255,255,255,0.7);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  max-width: 50ch;
+}
+.hero-actions {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: rgba(255,255,255,0.65);
+  font-weight: 500;
+}
+.trust-icon { color: var(--color-orange); }
+.trust-sep { color: rgba(255,255,255,0.25); }
+
+/* Hero Card */
+.hero-card {
+  flex-shrink: 0;
+  width: 280px;
+}
+.hero-card-inner {
+  background: rgba(255,255,255,0.06);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--radius-xl);
+  padding: 24px;
+}
+.hero-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(244,123,53,0.15);
+  border: 1px solid rgba(244,123,53,0.3);
+  color: var(--color-orange);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 5px 12px;
+  border-radius: 999px;
+  margin-bottom: 20px;
+}
+.hero-card-stats {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 20px;
+  padding: 16px;
+  background: rgba(255,255,255,0.04);
+  border-radius: var(--radius-md);
+}
+.hero-stat { text-align: center; }
+.hero-stat-num {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: white;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+.hero-stat-label { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+.hero-stat-divider { width: 1px; height: 40px; background: rgba(255,255,255,0.1); }
+.hero-card-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.hero-service-tag {
+  font-size: 0.75rem;
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* Scroll indicator */
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1;
+}
+.scroll-dot {
+  width: 6px;
+  height: 32px;
+  border-radius: 3px;
+  border: 2px solid rgba(255,255,255,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.scroll-dot::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: white;
+  border-radius: 2px;
+  animation: scrollDown 2s ease-in-out infinite;
+}
+@keyframes scrollDown {
+  0% { transform: translateY(-12px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(32px); opacity: 0; }
+}
+
+/* ─── TRUST BAR ─────────────────────────────────────────── */
+.trust-bar {
+  background: var(--color-slate);
+  padding: 32px 0;
+  border-top: 1px solid rgba(255,255,255,0.08);
+}
+.trust-bar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.trust-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+.trust-bar-icon { font-size: 1.75rem; }
+.trust-bar-value {
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: white;
+  line-height: 1.2;
+}
+.trust-bar-label { font-size: 0.8125rem; color: rgba(255,255,255,0.5); }
+
+/* ─── ABOUT PREVIEW ─────────────────────────────────────── */
+.about-preview-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 72px;
+  align-items: center;
+}
+.about-preview-img {
+  position: relative;
+}
+.about-img {
+  width: 100%;
+  height: 520px;
+  object-fit: cover;
+  border-radius: var(--radius-xl);
+}
+.about-badge {
+  position: absolute;
+  bottom: 28px;
+  right: -20px;
+  background: var(--color-orange);
+  color: white;
+  padding: 16px 20px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  box-shadow: var(--shadow-orange);
+}
+.about-badge-num {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+}
+.about-badge-text { font-size: 0.75rem; opacity: 0.85; }
+.about-desc { color: var(--color-gray); line-height: 1.7; max-width: 60ch; }
+.about-values {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin: 24px 0 32px;
+}
+.about-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--color-navy);
+  font-weight: 500;
+}
+.about-value-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-orange);
+  flex-shrink: 0;
+}
+
+/* ─── SERVICES GRID ─────────────────────────────────────── */
+.services-section .section-header { text-align: center; margin-bottom: 56px; }
+.services-section .section-header h2,
+.services-section .section-header p { margin: 0 auto; }
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 2px;
+  background: rgba(255,255,255,0.06);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  margin-bottom: 48px;
+}
+.svc-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 28px 24px;
+  background: rgba(255,255,255,0.03);
+  transition: background var(--transition-fast);
+  position: relative;
+  overflow: hidden;
+}
+.svc-card:hover { background: rgba(244,123,53,0.1); }
+.svc-icon { font-size: 2rem; }
+.svc-name {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: white;
+  margin: 0;
+  line-height: 1.3;
+}
+.svc-desc { font-size: 0.8125rem; color: rgba(255,255,255,0.5); line-height: 1.5; flex: 1; }
+.svc-arrow {
+  font-size: 1rem;
+  color: var(--color-orange);
+  transition: transform var(--transition-fast);
+}
+.svc-card:hover .svc-arrow { transform: translateX(4px); }
+
+.section-cta { text-align: center; margin-top: 40px; }
+
+/* ─── WHY US ─────────────────────────────────────────────── */
+.why-header { text-align: center; margin-bottom: 56px; }
+.why-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.why-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: all var(--transition-base);
+}
+.why-card:hover {
+  border-color: var(--color-orange);
+  box-shadow: 0 8px 32px rgba(244,123,53,0.12);
+  transform: translateY(-3px);
+}
+.why-icon-wrap {
+  width: 52px;
+  height: 52px;
+  border-radius: var(--radius-md);
+  background: rgba(244,123,53,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-orange);
+  margin-bottom: 20px;
+}
+.why-title {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+.why-desc { font-size: 0.875rem; color: var(--color-gray); line-height: 1.65; max-width: 100%; }
+
+/* ─── FEATURED SERVICES ─────────────────────────────────── */
+.featured-section .section-header { text-align: center; margin-bottom: 48px; }
+.featured-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.featured-card {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+.featured-card:hover {
+  border-color: rgba(244,123,53,0.4);
+  transform: translateY(-3px);
+}
+.featured-img-wrap { position: relative; }
+.featured-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+.featured-category-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(16,27,43,0.8);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.featured-body { padding: 20px; }
+.featured-title { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 8px; }
+.featured-desc { font-size: 0.8125rem; color: rgba(255,255,255,0.55); margin-bottom: 16px; line-height: 1.6; }
+.featured-meta { display: flex; align-items: center; justify-content: space-between; }
+.featured-price { font-size: 0.875rem; font-weight: 700; color: var(--color-orange); }
+
+/* ─── PROCESS ───────────────────────────────────────────── */
+.process-header { text-align: center; margin-bottom: 64px; }
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  margin-bottom: 48px;
+}
+.process-step { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 0 24px; }
+.step-num-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  width: 100%;
+  justify-content: center;
+}
+.step-num {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--color-navy);
+  border: 2px solid var(--color-orange);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: var(--color-orange);
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+.step-line {
+  position: absolute;
+  top: 50%;
+  left: calc(50% + 28px);
+  right: calc(-50% + 28px);
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-orange), rgba(244,123,53,0.2));
+  transform: translateY(-50%);
+}
+.step-title { font-size: 1.0625rem; font-weight: 700; color: var(--color-navy); margin-bottom: 10px; }
+.step-desc { font-size: 0.875rem; color: var(--color-gray); line-height: 1.65; }
+.process-cta { text-align: center; }
+
+/* ─── PRICING PREVIEW ───────────────────────────────────── */
+.pricing-preview .section-header { text-align: center; margin-bottom: 48px; }
+.pricing-preview-grid { display: flex; flex-direction: column; gap: 2px; margin-bottom: 24px; max-width: 700px; margin-left: auto; margin-right: auto; }
+.price-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 16px 20px;
+  background: rgba(255,255,255,0.04);
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+.price-row:hover { background: rgba(255,255,255,0.07); }
+.price-row-left { display: flex; align-items: center; gap: 12px; }
+.price-cat-badge {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(244,123,53,0.15);
+  color: var(--color-orange);
+  flex-shrink: 0;
+}
+.price-name { font-size: 0.9375rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+.price-value { font-family: var(--font-heading); font-size: 0.9375rem; font-weight: 700; color: var(--color-orange); flex-shrink: 0; }
+.pricing-disclaimer {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: rgba(255,255,255,0.4);
+  max-width: 700px;
+  margin: 0 auto 36px;
+  padding: 12px 16px;
+  background: rgba(255,255,255,0.04);
+  border-radius: var(--radius-sm);
+  border-left: 3px solid rgba(244,123,53,0.4);
+}
+.pricing-disclaimer svg { flex-shrink: 0; margin-top: 1px; }
+
+/* ─── SPARE PART ─────────────────────────────────────────── */
+.sparepart-preview .section-header { text-align: center; margin-bottom: 48px; }
+.sparepart-categories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 40px;
+}
+.sparepart-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 28px 20px;
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all var(--transition-base);
+  text-align: center;
+}
+.sparepart-cat:hover {
+  border-color: var(--color-orange);
+  box-shadow: 0 4px 20px rgba(244,123,53,0.12);
+  transform: translateY(-2px);
+}
+.sparepart-cat-icon { font-size: 2rem; }
+.sparepart-cat-name { font-family: var(--font-heading); font-size: 0.875rem; font-weight: 600; color: var(--color-navy); }
+
+/* ─── PROMO ──────────────────────────────────────────────── */
+.promo-preview .section-header { text-align: center; margin-bottom: 48px; }
+.promo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.promo-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+}
+.promo-card:hover { border-color: rgba(244,123,53,0.3); transform: translateY(-2px); }
+.promo-img-wrap { position: relative; }
+.promo-img { width: 100%; height: 200px; object-fit: cover; }
+.promo-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: var(--color-orange);
+  color: white;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.promo-body { padding: 20px; }
+.promo-title { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 4px; }
+.promo-subtitle { font-size: 0.8125rem; color: rgba(255,255,255,0.5); margin-bottom: 12px; }
+.promo-price-row { display: flex; align-items: center; gap: 10px; }
+.promo-orig-price { font-size: 0.875rem; color: rgba(255,255,255,0.3); text-decoration: line-through; }
+.promo-final-price { font-family: var(--font-heading); font-size: 1rem; font-weight: 700; color: var(--color-orange); }
+.demo-note { font-style: italic; }
+
+/* ─── GALLERY ────────────────────────────────────────────── */
+.gallery-preview .section-header { text-align: center; margin-bottom: 40px; }
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+.gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+.gallery-item-featured {
+  grid-column: 1;
+  grid-row: 1 / 3;
+}
+.gallery-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.gallery-item-featured .gallery-img { height: 100%; min-height: 460px; }
+.gallery-item:hover .gallery-img { transform: scale(1.05); }
+.gallery-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(16,27,43,0.5) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity var(--transition-base);
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+/* ─── TESTIMONIALS ───────────────────────────────────────── */
+.testimonials-section .section-header { text-align: center; margin-bottom: 48px; }
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+.testi-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  transition: all var(--transition-base);
+}
+.testi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); }
+.testi-stars { color: #F59E0B; font-size: 1rem; letter-spacing: 2px; margin-bottom: 14px; }
+.testi-text { font-size: 0.9375rem; color: var(--color-gray); line-height: 1.7; margin-bottom: 20px; font-style: italic; }
+.testi-author { display: flex; align-items: center; gap: 12px; }
+.testi-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--color-navy);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.testi-name { font-weight: 700; font-size: 0.9375rem; color: var(--color-navy); }
+.testi-vehicle { font-size: 0.8125rem; color: var(--color-gray); }
+
+/* ─── ARTICLES ───────────────────────────────────────────── */
+.articles-preview .section-header { text-align: center; margin-bottom: 48px; }
+.articles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.article-card {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  display: block;
+}
+.article-card:hover { border-color: rgba(244,123,53,0.3); transform: translateY(-2px); }
+.article-img-wrap { position: relative; }
+.article-img { width: 100%; height: 200px; object-fit: cover; }
+.article-cat {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(16,27,43,0.8);
+  backdrop-filter: blur(4px);
+  color: rgba(255,255,255,0.9);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+.article-body { padding: 20px; }
+.article-title { font-size: 1rem; font-weight: 700; color: white; margin-bottom: 10px; line-height: 1.4; }
+.article-excerpt { font-size: 0.8125rem; color: rgba(255,255,255,0.5); line-height: 1.65; margin-bottom: 14px; }
+.article-meta { font-size: 0.75rem; color: rgba(255,255,255,0.35); display: flex; gap: 6px; align-items: center; }
+
+/* ─── FAQ ────────────────────────────────────────────────── */
+.faq-container { max-width: 760px; }
+.faq-section .section-header { margin-bottom: 48px; }
+.faq-list { margin-top: 8px; }
+
+/* ─── FINAL CTA ──────────────────────────────────────────── */
+.final-cta { position: relative; overflow: hidden; text-align: center; }
+.final-cta-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(244,123,53,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+.final-cta-content { position: relative; z-index: 1; max-width: 700px; margin: 0 auto; }
+.final-cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 1200px) {
+  .hero-card { width: 260px; }
+  .services-grid { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 1024px) {
+  .hero-content { grid-template-columns: 1fr; }
+  .hero-card { display: none; }
+  .hero-text { max-width: 100%; }
+  .trust-bar-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-preview-grid { grid-template-columns: 1fr; gap: 48px; }
+  .about-badge { right: 20px; }
+  .about-img { height: 380px; }
+  .services-grid { grid-template-columns: repeat(3, 1fr); }
+  .why-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured-grid { grid-template-columns: repeat(2, 1fr); }
+  .process-steps { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+  .step-line { display: none; }
+  .promo-grid { grid-template-columns: repeat(2, 1fr); }
+  .testimonials-grid { grid-template-columns: repeat(2, 1fr); }
+  .articles-grid { grid-template-columns: repeat(2, 1fr); }
+  .sparepart-categories { grid-template-columns: repeat(4, 1fr); }
+}
+@media (max-width: 768px) {
+  .hero-title { font-size: clamp(2rem, 7vw, 2.75rem); }
+  .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .why-grid { grid-template-columns: 1fr; }
+  .featured-grid { grid-template-columns: 1fr; }
+  .promo-grid { grid-template-columns: 1fr; }
+  .testimonials-grid { grid-template-columns: 1fr; }
+  .articles-grid { grid-template-columns: 1fr; }
+  .sparepart-categories { grid-template-columns: repeat(2, 1fr); }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item-featured { grid-column: 1 / 3; grid-row: auto; }
+  .gallery-item-featured .gallery-img { min-height: 280px; }
+  .hero-actions { flex-direction: column; align-items: flex-start; }
+  .hero-actions .btn { width: 100%; justify-content: center; }
+}
+@media (max-width: 480px) {
+  .trust-bar-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .services-grid { grid-template-columns: 1fr 1fr; }
+  .about-values { grid-template-columns: 1fr; }
+  .process-steps { grid-template-columns: 1fr; }
+  .sparepart-categories { grid-template-columns: repeat(2, 1fr); }
+  .pricing-preview-grid { font-size: 0.8125rem; }
+  .final-cta-actions { flex-direction: column; }
+  .final-cta-actions .btn { width: 100%; justify-content: center; }
+}
+</style>

@@ -1,0 +1,638 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SITE, waLink } from '../config/site';
+---
+
+<Layout
+  title="Hubungi Kami - Lokasi & Kontak Bengkel FindFix Semarang"
+  description="Hubungi FindFix Automotive Service Center di Semarang. Alamat bengkel, nomor WhatsApp, jam buka operasional, peta lokasi, serta formulir pertanyaan."
+>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Kontak</span>
+      </nav>
+
+      <div class="contact-hero-header">
+        <p class="section-eyebrow">Hubungi Kami</p>
+        <h1>Kami Siap Mendengar &amp; Membantu Kendaraan Anda</h1>
+        <p class="hero-desc">
+          Punya pertanyaan seputar layanan, ingin konsultasi keluhan mobil/motor, atau butuh panduan rute menuju bengkel FindFix di Semarang? Tim kami siap melayani Anda dengan responsif.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Cards & Info Grid -->
+  <section class="section contact-main-section">
+    <div class="container contact-layout-grid">
+      <!-- Contact Cards Info -->
+      <div class="contact-cards-column">
+        <!-- Direct Communication Card -->
+        <div class="contact-card">
+          <div class="card-icon-wrap" aria-hidden="true">💬</div>
+          <h3 class="contact-card-title">WhatsApp</h3>
+          <p class="contact-card-desc">Saluran komunikasi terpadu untuk tanya jawab, estimasi harga, dan konfirmasi booking servis.</p>
+          <a
+            href={waLink("Halo FindFix! Saya ingin menanyakan informasi seputar layanan bengkel.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="contact-link highlight"
+          >
+            {SITE.whatsappDisplay} →
+          </a>
+          <span class="online-indicator">🟢 Respons Cepat di Jam Kerja</span>
+        </div>
+
+        <!-- Phone Card -->
+        <div class="contact-card">
+          <div class="card-icon-wrap" aria-hidden="true">📞</div>
+          <h3 class="contact-card-title">Telepon Bengkel</h3>
+          <p class="contact-card-desc">Hubungi meja layanan penerimaan kendaraan untuk panggilan langsung.</p>
+          <a href={`tel:${SITE.phone}`} class="contact-link">
+            {SITE.phoneDisplay || SITE.phone}
+          </a>
+        </div>
+
+        <!-- Email Card -->
+        <div class="contact-card">
+          <div class="card-icon-wrap" aria-hidden="true">✉️</div>
+          <h3 class="contact-card-title">Email Bisnis</h3>
+          <p class="contact-card-desc">Untuk penawaran kerja sama, perawatan armada perusahaan, atau pertanyaan umum.</p>
+          <a href={`mailto:${SITE.email}`} class="contact-link">
+            {SITE.email}
+          </a>
+        </div>
+
+        <!-- Location Card -->
+        <div class="contact-card">
+          <div class="card-icon-wrap" aria-hidden="true">📍</div>
+          <h3 class="contact-card-title">Alamat Bengkel</h3>
+          <p class="contact-card-desc">
+            {SITE.addressDisplay}
+          </p>
+          <span class="location-badge">Kota Semarang</span>
+        </div>
+
+        <!-- Operating Hours Card -->
+        <div class="contact-card">
+          <div class="card-icon-wrap" aria-hidden="true">⏰</div>
+          <h3 class="contact-card-title">Jam Operasional</h3>
+          <div class="hours-rows-box">
+            <div class="h-row">
+              <span>Senin – Jumat</span>
+              <strong>08.00 – 17.00 WIB</strong>
+            </div>
+            <div class="h-row">
+              <span>Sabtu</span>
+              <strong>08.00 – 15.00 WIB</strong>
+            </div>
+            <div class="h-row closed">
+              <span>Minggu &amp; Libur</span>
+              <strong>Tutup</strong>
+            </div>
+          </div>
+          <p class="hours-footnote">{SITE.hours.note}</p>
+        </div>
+
+        <!-- Social Media Card -->
+        <div class="contact-card">
+          <div class="card-icon-wrap" aria-hidden="true">🌐</div>
+          <h3 class="contact-card-title">Media Sosial</h3>
+          <p class="contact-card-desc">Ikuti kami untuk update promo, tips otomotif mingguan, dan dokumentasi workshop.</p>
+          <div class="social-links-grid">
+            {SITE.social.instagram && (
+              <a href={SITE.social.instagram} target="_blank" rel="noopener noreferrer" class="social-pill">
+                Instagram
+              </a>
+            )}
+            {SITE.social.facebook && (
+              <a href={SITE.social.facebook} target="_blank" rel="noopener noreferrer" class="social-pill">
+                Facebook
+              </a>
+            )}
+            {SITE.social.tiktok && (
+              <a href={SITE.social.tiktok} target="_blank" rel="noopener noreferrer" class="social-pill">
+                TikTok
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Contact Form & Emergency Box -->
+      <div class="contact-form-column">
+        <!-- Emergency Roadside Box -->
+        <div class="emergency-banner">
+          <div class="emergency-header">
+            <span class="emergency-tag">Bantuan Darurat</span>
+            <h3 class="emergency-title">Kendaraan Mengalami Kendala di Perjalanan?</h3>
+          </div>
+          <p class="emergency-desc">
+            Jika mobil atau motor Anda mogok mendadak di area Semarang dan sekitarnya, hubungi saluran darurat kami untuk panduan teknis awal atau koordinasi solusi penanganan lanjutan.
+          </p>
+          <a
+            href={waLink("🚨 KONDISI DARURAT: Halo FindFix, kendaraan saya bermasalah di jalan dan butuh bantuan segera.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-primary"
+          >
+            Hubungi Hotline Darurat WhatsApp
+          </a>
+        </div>
+
+        <!-- General Inquiry Form -->
+        <div class="inquiry-form-card">
+          <div class="inquiry-card-header">
+            <h3 class="inquiry-title">Kirim Pertanyaan / Pesan</h3>
+            <p class="inquiry-subtitle">
+              Sampaikan pertanyaan mengenai estimasi biaya, ketersediaan spare part, atau konsultasi servis.
+            </p>
+          </div>
+
+          <form
+            id="contact-inquiry-form"
+            class="inquiry-form"
+            data-whatsapp={SITE.whatsapp}
+            novalidate
+          >
+            <div class="form-group">
+              <label for="contact-name" class="form-label">Nama Anda *</label>
+              <input
+                type="text"
+                id="contact-name"
+                class="form-input"
+                placeholder="Contoh: Rian Anggara"
+                required
+              />
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="contact-wa" class="form-label">Nomor WhatsApp *</label>
+                <input
+                  type="tel"
+                  id="contact-wa"
+                  class="form-input"
+                  placeholder="Contoh: 081234567890"
+                  required
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="contact-subject" class="form-label">Kategori Pertanyaan *</label>
+                <select id="contact-subject" class="form-select" required>
+                  <option value="Konsultasi Servis Mobil">Konsultasi Servis Mobil</option>
+                  <option value="Konsultasi Servis Motor">Konsultasi Servis Motor</option>
+                  <option value="Tanya Ketersediaan Spare Part">Tanya Ketersediaan Spare Part</option>
+                  <option value="Pertanyaan Promo / Paket">Pertanyaan Promo / Paket</option>
+                  <option value="Kerja Sama Armada / Fleet">Kerja Sama Armada / Fleet</option>
+                  <option value="Lainnya">Lainnya</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-message" class="form-label">Pesan / Pertanyaan Anda *</label>
+              <textarea
+                id="contact-message"
+                class="form-textarea"
+                rows="4"
+                placeholder="Tuliskan pertanyaan atau keluhan kendaraan Anda di sini..."
+                required
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">
+              Kirim Pesan via WhatsApp
+            </button>
+            <p class="inquiry-disclaimer">
+              Pesan akan otomatis dirangkum dan diteruskan ke admin WhatsApp FindFix.
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Map Section -->
+  <section class="section section-offwhite map-section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 36px;">
+        <p class="section-eyebrow" style="margin: 0 auto 12px;">Peta Lokasi</p>
+        <h2 class="section-title">Kunjungi Bengkel FindFix di Semarang</h2>
+        <p class="section-desc" style="margin: 0 auto;">Akses mudah di kota Semarang dengan fasilitas penerimaan kendaraan yang nyaman dan parkir luas.</p>
+      </div>
+
+      <div class="map-interactive-wrapper">
+        <!-- Google Maps Embed for Semarang -->
+        <div class="map-frame-container">
+          <iframe
+            src={SITE.mapsEmbed}
+            width="100%"
+            height="460"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Peta Lokasi FindFix Semarang"
+            class="google-map-iframe"
+          ></iframe>
+        </div>
+
+        <!-- Floating Info Overlay Card -->
+        <div class="map-overlay-card">
+          <div class="overlay-brand">
+            <span class="overlay-badge">Bengkel Mobil &amp; Motor</span>
+            <h3 class="overlay-title">FindFix Semarang</h3>
+          </div>
+          <p class="overlay-address">
+            📍 {SITE.addressDisplay}
+          </p>
+          <div class="overlay-hours">
+            <span>⏰ {SITE.hours.weekday}</span>
+          </div>
+          <div class="overlay-actions">
+            <a
+              href={SITE.mapsLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-primary btn-sm"
+            >
+              Buka di Google Maps →
+            </a>
+            <a
+              href={waLink("Halo FindFix, boleh minta panduan rute/arah ke bengkel?")}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="btn btn-secondary btn-sm"
+            >
+              Minta Rute via WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.contact-hero-header {
+  max-width: 780px;
+  margin-top: 24px;
+}
+.contact-hero-header h1 {
+  color: white;
+  margin-bottom: 16px;
+}
+
+/* Grid Layout */
+.contact-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Cards Column */
+.contact-cards-column {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.contact-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-base);
+}
+.contact-card:hover {
+  box-shadow: var(--shadow-md);
+  border-color: rgba(244, 123, 53, 0.4);
+  transform: translateY(-2px);
+}
+.card-icon-wrap {
+  font-size: 1.75rem;
+  margin-bottom: 12px;
+}
+.contact-card-title {
+  font-size: 1.0625rem;
+  color: var(--color-navy);
+  margin-bottom: 6px;
+}
+.contact-card-desc {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  flex: 1;
+}
+.contact-link {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  transition: color var(--transition-fast);
+}
+.contact-link.highlight {
+  color: var(--color-orange);
+}
+.contact-link:hover {
+  color: var(--color-orange);
+}
+.online-indicator {
+  font-size: 0.75rem;
+  color: #10B981;
+  font-weight: 600;
+  margin-top: 8px;
+}
+.location-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-orange);
+  background: rgba(244, 123, 53, 0.1);
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 8px;
+}
+
+.hours-rows-box {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.h-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8125rem;
+  color: var(--color-slate);
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--color-border);
+}
+.h-row.closed {
+  color: var(--color-gray);
+}
+.hours-footnote {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+}
+
+.social-links-grid {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.social-pill {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-slate);
+  background: var(--color-off-white);
+  border: 1px solid var(--color-border);
+  padding: 4px 12px;
+  border-radius: 999px;
+  transition: all var(--transition-fast);
+}
+.social-pill:hover {
+  background: var(--color-orange);
+  color: white;
+  border-color: var(--color-orange);
+}
+
+/* Form Column */
+.contact-form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.emergency-banner {
+  background: var(--color-navy);
+  border: 2px solid var(--color-orange);
+  border-radius: var(--radius-xl);
+  padding: 32px;
+  color: white;
+}
+.emergency-tag {
+  display: inline-block;
+  background: var(--color-orange);
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+.emergency-title {
+  color: white;
+  font-size: 1.375rem;
+  margin-bottom: 10px;
+}
+.emergency-desc {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.75);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+/* Inquiry Form */
+.inquiry-form-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 36px;
+  box-shadow: var(--shadow-md);
+}
+.inquiry-card-header {
+  margin-bottom: 24px;
+}
+.inquiry-title {
+  font-size: 1.375rem;
+  color: var(--color-navy);
+  margin-bottom: 6px;
+}
+.inquiry-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.4;
+}
+.inquiry-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+.inquiry-disclaimer {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* Map Section */
+.map-interactive-wrapper {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--color-border);
+  background: var(--color-white);
+}
+.map-frame-container {
+  width: 100%;
+  height: 460px;
+}
+.google-map-iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+.map-overlay-card {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  max-width: 360px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(8px);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-md);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.overlay-badge {
+  font-size: 0.6875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-orange);
+  display: block;
+  margin-bottom: 2px;
+}
+.overlay-title {
+  font-size: 1.25rem;
+  color: var(--color-navy);
+  margin: 0;
+}
+.overlay-address {
+  font-size: 0.8125rem;
+  color: var(--color-slate);
+  line-height: 1.45;
+  margin: 0;
+}
+.overlay-hours {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+}
+.overlay-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+  .contact-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .contact-cards-column {
+    grid-template-columns: 1fr;
+  }
+  .form-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .inquiry-form-card {
+    padding: 24px;
+  }
+  .emergency-banner {
+    padding: 24px;
+  }
+  .map-overlay-card {
+    position: static;
+    max-width: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    border-top: 1px solid var(--color-border);
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+  }
+  .map-frame-container {
+    height: 320px;
+  }
+}
+
+</style>
+
+<script>
+  const form = document.getElementById('contact-inquiry-form') as HTMLFormElement | null;
+
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    const nameInput = document.getElementById('contact-name') as HTMLInputElement | null;
+    const waInput = document.getElementById('contact-wa') as HTMLInputElement | null;
+    const subjectSelect = document.getElementById('contact-subject') as HTMLSelectElement | null;
+    const messageInput = document.getElementById('contact-message') as HTMLTextAreaElement | null;
+
+    const name = nameInput?.value.trim() || '';
+    const wa = waInput?.value.trim() || '';
+    const subject = subjectSelect?.value || 'Konsultasi Servis';
+    const message = messageInput?.value.trim() || '';
+
+    // Clear previous errors
+    [nameInput, waInput, messageInput].forEach(el => el?.classList.remove('error'));
+
+    let hasError = false;
+    if (!name) { nameInput?.classList.add('error'); hasError = true; }
+    if (!wa) { waInput?.classList.add('error'); hasError = true; }
+    if (!message) { messageInput?.classList.add('error'); hasError = true; }
+
+    if (hasError) {
+      const firstErr = form?.querySelector('.error') as HTMLElement | null;
+      firstErr?.focus();
+      return;
+    }
+
+    const text = `Halo FindFix! 👋
+
+Saya ingin menanyakan informasi dengan rincian berikut:
+• *Nama*: ${name}
+• *Nomor WhatsApp*: ${wa}
+• *Kategori*: ${subject}
+
+*Pesan / Pertanyaan*:
+${message}
+
+Mohon bantuannya. Terima kasih! 🙏`;
+
+    const waNumber = form?.dataset.whatsapp || '6281234567890';
+    const cleanNumber = waNumber.replace(/[^0-9]/g, '');
+    const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(text)}`;
+    window.location.href = waUrl;
+  });
+</script>

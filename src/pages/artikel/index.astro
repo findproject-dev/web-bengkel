@@ -1,0 +1,399 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ARTICLES, ARTICLE_CATEGORIES } from '../../data/articles';
+
+const featuredArticle = ARTICLES[0];
+const remainingArticles = ARTICLES.slice(1);
+---
+
+<Layout
+  title="Artikel & Tips Otomotif - Panduan Perawatan Kendaraan FindFix"
+  description="Kumpulan artikel, tips perawatan mobil dan motor, panduan servis, dan edukasi keselamatan berkendara dari teknisi FindFix Semarang."
+>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Artikel &amp; Tips</span>
+      </nav>
+
+      <div class="articles-hero-header">
+        <p class="section-eyebrow">Pusat Edukasi Otomotif</p>
+        <h1>Panduan Praktis Perawatan Mobil &amp; Motor</h1>
+        <p class="hero-desc">
+          Pelajari tips perawatan berkala, panduan deteksi dini kerusakan, dan wawasan keselamatan berkendara langsung dari pengalaman teknisi FindFix Semarang.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Article Section -->
+  <section class="section featured-article-section">
+    <div class="container">
+      <div class="featured-article-card">
+        <div class="featured-article-img-wrap">
+          <img
+            src={featuredArticle.image}
+            alt={featuredArticle.title}
+            class="featured-article-img"
+            loading="eager"
+          />
+          <span class="featured-article-badge">Artikel Utama</span>
+        </div>
+
+        <div class="featured-article-body">
+          <div class="article-meta-tags">
+            <span class="meta-cat">
+              {ARTICLE_CATEGORIES.find(c => c.id === featuredArticle.category)?.label || featuredArticle.category}
+            </span>
+            <span class="meta-dot">•</span>
+            <span class="meta-read">{featuredArticle.readingTime} Menit Baca</span>
+            <span class="meta-dot">•</span>
+            <span class="meta-date">
+              {new Date(featuredArticle.publishDate).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+          </div>
+
+          <h2 class="featured-article-title">
+            <a href={`/artikel/${featuredArticle.slug}`}>{featuredArticle.title}</a>
+          </h2>
+
+          <p class="featured-article-excerpt">{featuredArticle.excerpt}</p>
+
+          <div class="featured-article-action">
+            <a href={`/artikel/${featuredArticle.slug}`} class="btn btn-primary">
+              Baca Selengkapnya →
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Category Filter & Articles List -->
+  <section class="section section-offwhite articles-list-section">
+    <div class="container">
+      <div class="articles-section-header">
+        <h2 class="section-title">Semua Artikel &amp; Panduan</h2>
+        <div class="articles-filter-pills" role="tablist">
+          <button class="art-pill active" data-category="all" role="tab" aria-selected="true">Semua ({ARTICLES.length})</button>
+          {ARTICLE_CATEGORIES.map((cat) => {
+            const count = ARTICLES.filter(a => a.category === cat.id).length;
+            return (
+              <button class="art-pill" data-category={cat.id} role="tab" aria-selected="false">
+                {cat.label} ({count})
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div class="articles-grid-view" id="articles-grid">
+        {ARTICLES.map((article) => (
+          <article class="article-grid-card" data-category={article.category}>
+            <a href={`/artikel/${article.slug}`} class="card-img-link">
+              <img src={article.image} alt={article.title} class="article-grid-img" loading="lazy" />
+              <span class="grid-cat-tag">
+                {ARTICLE_CATEGORIES.find(c => c.id === article.category)?.label || article.category}
+              </span>
+            </a>
+
+            <div class="article-grid-body">
+              <div class="article-grid-meta">
+                <span>⏱ {article.readingTime} mnt baca</span>
+                <span>•</span>
+                <span>{new Date(article.publishDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+              </div>
+
+              <h3 class="article-grid-title">
+                <a href={`/artikel/${article.slug}`}>{article.title}</a>
+              </h3>
+
+              <p class="article-grid-excerpt">{article.excerpt}</p>
+
+              <div class="article-grid-footer">
+                <a href={`/artikel/${article.slug}`} class="read-more-link">
+                  Baca Artikel →
+                </a>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.articles-hero-header {
+  max-width: 760px;
+  margin-top: 24px;
+}
+.articles-hero-header h1 {
+  color: white;
+  margin-bottom: 16px;
+}
+
+/* Featured Article */
+.featured-article-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
+}
+.featured-article-card:hover {
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(244, 123, 53, 0.4);
+}
+.featured-article-img-wrap {
+  position: relative;
+}
+.featured-article-img {
+  width: 100%;
+  height: 100%;
+  min-height: 380px;
+  object-fit: cover;
+  display: block;
+}
+.featured-article-badge {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--color-orange);
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 12px;
+  border-radius: 999px;
+}
+.featured-article-body {
+  padding: 44px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.article-meta-tags {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+  margin-bottom: 14px;
+}
+.meta-cat {
+  font-weight: 700;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.featured-article-title {
+  font-size: 1.75rem;
+  color: var(--color-navy);
+  line-height: 1.3;
+  margin-bottom: 14px;
+}
+.featured-article-title a {
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+.featured-article-title a:hover {
+  color: var(--color-orange);
+}
+.featured-article-excerpt {
+  font-size: 1rem;
+  color: var(--color-slate);
+  line-height: 1.65;
+  margin-bottom: 28px;
+}
+
+/* Articles List & Grid */
+.articles-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+}
+.articles-filter-pills {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.art-pill {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.art-pill:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+.art-pill.active {
+  background: var(--color-navy);
+  border-color: var(--color-navy);
+  color: white;
+}
+
+.articles-grid-view {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.article-grid-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-base);
+}
+.article-grid-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+  border-color: rgba(244, 123, 53, 0.4);
+}
+.card-img-link {
+  position: relative;
+  display: block;
+}
+.article-grid-img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+}
+.grid-cat-tag {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: rgba(16, 27, 43, 0.75);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+}
+.article-grid-body {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.article-grid-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  margin-bottom: 10px;
+}
+.article-grid-title {
+  font-size: 1.125rem;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+.article-grid-title a {
+  color: inherit;
+  transition: color var(--transition-fast);
+}
+.article-grid-title a:hover {
+  color: var(--color-orange);
+}
+.article-grid-excerpt {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+.article-grid-footer {
+  padding-top: 14px;
+  border-top: 1px solid var(--color-border);
+}
+.read-more-link {
+  font-family: var(--font-heading);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-orange);
+  transition: gap var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.read-more-link:hover {
+  gap: 8px;
+}
+
+@media (max-width: 1024px) {
+  .featured-article-card {
+    grid-template-columns: 1fr;
+  }
+  .featured-article-img {
+    height: 280px;
+    min-height: auto;
+  }
+  .featured-article-body {
+    padding: 28px;
+  }
+  .articles-grid-view {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .articles-grid-view {
+    grid-template-columns: 1fr;
+  }
+  .articles-section-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+</style>
+
+<script>
+  const pills = document.querySelectorAll('.art-pill');
+  const cards = document.querySelectorAll('.article-grid-card');
+
+  pills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      const cat = (pill as HTMLElement).dataset.category;
+
+      pills.forEach((p) => {
+        p.classList.remove('active');
+        p.setAttribute('aria-selected', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-selected', 'true');
+
+      cards.forEach((card) => {
+        const el = card as HTMLElement;
+        const cardCat = el.dataset.category;
+        if (cat === 'all' || cardCat === cat) {
+          el.style.display = 'flex';
+        } else {
+          el.style.display = 'none';
+        }
+      });
+    });
+  });
+</script>

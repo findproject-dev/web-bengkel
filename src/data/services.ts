@@ -1,0 +1,797 @@
+// ============================================================
+// FINDFIX — SERVICES DATA
+// ============================================================
+
+export interface Service {
+  slug: string;
+  name: string;
+  category: "mobil" | "motor" | "umum";
+  icon: string; // Lucide icon name
+  image: string; // Unsplash URL
+  shortDesc: string;
+  description: string;
+  benefits: string[];
+  includes: string[];
+  procedure: string[];
+  duration: string;
+  startingPrice: string;
+  priceNote?: string;
+  symptoms?: string[];
+  faqs?: { q: string; a: string }[];
+  relatedSlugs?: string[];
+  featured?: boolean;
+}
+
+export const SERVICES: Service[] = [
+  // ─── MOBIL ─────────────────────────────────────────────────
+  {
+    slug: "servis-berkala-mobil",
+    name: "Servis Berkala Mobil",
+    category: "mobil",
+    icon: "Settings",
+    image: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&q=80",
+    shortDesc: "Perawatan rutin untuk menjaga performa optimal kendaraan Anda.",
+    description:
+      "Servis berkala adalah fondasi perawatan kendaraan yang baik. Dilakukan secara rutin sesuai jadwal pabrikan, servis berkala memastikan semua sistem kendaraan berfungsi optimal dan mencegah kerusakan yang lebih besar.",
+    benefits: [
+      "Menjaga performa mesin tetap optimal",
+      "Mencegah kerusakan sebelum terjadi",
+      "Memperpanjang umur kendaraan",
+      "Menjaga efisiensi bahan bakar",
+      "Keamanan berkendara lebih terjamin",
+    ],
+    includes: [
+      "Penggantian oli mesin",
+      "Pengecekan filter udara",
+      "Pengecekan filter oli",
+      "Pemeriksaan sistem pendingin",
+      "Pengecekan kondisi rem",
+      "Pemeriksaan tekanan ban",
+      "Pemeriksaan kelistrikan dasar",
+      "Pengecekan cairan kendaraan",
+    ],
+    procedure: [
+      "Penerimaan kendaraan dan pemeriksaan awal",
+      "Penggantian oli dan filter sesuai spesifikasi",
+      "Pemeriksaan menyeluruh seluruh sistem",
+      "Penyampaian hasil pemeriksaan kepada pelanggan",
+      "Pengerjaan item yang disetujui pelanggan",
+      "Quality check sebelum kendaraan diserahkan",
+    ],
+    duration: "1–2 jam",
+    startingPrice: "Rp 250.000",
+    priceNote: "Harga belum termasuk suku cadang. Estimasi final setelah pemeriksaan.",
+    symptoms: [
+      "Sudah mencapai jarak tempuh servis (setiap 5.000–10.000 km)",
+      "Indikator servis di dashboard menyala",
+      "Sudah 6 bulan sejak servis terakhir",
+    ],
+    featured: true,
+    relatedSlugs: ["tune-up-mobil", "ganti-oli-mobil", "pemeriksaan-kendaraan"],
+  },
+  {
+    slug: "tune-up-mobil",
+    name: "Tune Up Mobil",
+    category: "mobil",
+    icon: "Zap",
+    image: "https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=800&q=80",
+    shortDesc: "Optimalkan kembali performa mesin yang menurun.",
+    description:
+      "Tune up adalah proses penyetelan ulang mesin untuk mengembalikan performa optimal yang mungkin menurun seiring pemakaian. Proses ini mencakup pembersihan dan penyetelan berbagai komponen mesin.",
+    benefits: [
+      "Mengembalikan akselerasi kendaraan",
+      "Meningkatkan efisiensi bahan bakar",
+      "Mesin lebih responsif",
+      "Mengurangi emisi gas buang",
+    ],
+    includes: [
+      "Pembersihan throttle body",
+      "Pengecekan dan penyetelan busi",
+      "Pembersihan injektor (jika diperlukan)",
+      "Pengecekan sistem pengapian",
+      "Penyetelan idle/stasioner",
+      "Pemeriksaan filter udara",
+    ],
+    procedure: [
+      "Pemeriksaan kondisi awal mesin",
+      "Pembersihan komponen sistem induksi",
+      "Penggantian komponen aus sesuai kondisi",
+      "Penyetelan performa mesin",
+      "Test drive untuk memastikan hasil",
+    ],
+    duration: "2–4 jam",
+    startingPrice: "Rp 200.000",
+    priceNote: "Harga belum termasuk suku cadang. Estimasi final setelah pemeriksaan.",
+    symptoms: [
+      "Mesin terasa kurang bertenaga",
+      "Konsumsi BBM meningkat",
+      "Tarikan terasa berat",
+      "Mesin bergetar tidak normal",
+      "Sulit dihidupkan di pagi hari",
+    ],
+    featured: true,
+    relatedSlugs: ["servis-berkala-mobil", "perbaikan-mesin-mobil"],
+  },
+  {
+    slug: "ganti-oli-mobil",
+    name: "Ganti Oli Mobil",
+    category: "mobil",
+    icon: "Droplets",
+    image: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=800&q=80",
+    shortDesc: "Penggantian oli berkualitas untuk melindungi mesin Anda.",
+    description:
+      "Oli mesin adalah darah kendaraan Anda. Penggantian oli rutin memastikan mesin terlumasi dengan baik, mencegah gesekan berlebih, dan menjaga suhu mesin tetap stabil.",
+    benefits: [
+      "Melindungi komponen mesin dari gesekan",
+      "Menjaga suhu mesin tetap stabil",
+      "Mencegah keausan dini",
+      "Mesin lebih awet dan tahan lama",
+    ],
+    includes: [
+      "Penggantian oli mesin sesuai spesifikasi",
+      "Penggantian filter oli",
+      "Pengecekan kebocoran oli",
+      "Pengecekan level cairan lain",
+    ],
+    procedure: [
+      "Pemilihan oli sesuai spesifikasi kendaraan",
+      "Pengeluaran oli lama",
+      "Pembersihan lubang pengisian",
+      "Penggantian filter oli baru",
+      "Pengisian oli baru sesuai kapasitas",
+      "Pengecekan kebocoran dan level oli",
+    ],
+    duration: "30–60 menit",
+    startingPrice: "Rp 100.000",
+    priceNote: "Harga oli tergantung jenis dan merek. Estimasi final setelah konsultasi.",
+    symptoms: [
+      "Sudah 5.000 km atau 3 bulan sejak ganti oli terakhir",
+      "Warna oli hitam pekat",
+      "Indikator oli menyala",
+      "Mesin terdengar lebih berisik",
+    ],
+    featured: true,
+    relatedSlugs: ["servis-berkala-mobil", "pemeriksaan-kendaraan"],
+  },
+  {
+    slug: "perbaikan-mesin-mobil",
+    name: "Perbaikan Mesin Mobil",
+    category: "mobil",
+    icon: "Cpu",
+    image: "https://images.unsplash.com/photo-1625047509168-a7026f36de04?w=800&q=80",
+    shortDesc: "Diagnosis dan perbaikan masalah mesin oleh teknisi berpengalaman.",
+    description:
+      "Perbaikan mesin memerlukan keahlian khusus dan peralatan diagnostik yang tepat. Tim FindFix melakukan pemeriksaan menyeluruh untuk mengidentifikasi akar masalah sebelum melakukan perbaikan.",
+    benefits: [
+      "Diagnosis akurat dengan peralatan modern",
+      "Penjelasan masalah yang transparan",
+      "Perbaikan sesuai persetujuan pelanggan",
+      "Penggunaan komponen berkualitas",
+    ],
+    includes: [
+      "Pemeriksaan diagnostik komputer",
+      "Identifikasi akar masalah",
+      "Estimasi biaya perbaikan",
+      "Perbaikan sesuai persetujuan",
+      "Test drive pasca perbaikan",
+    ],
+    procedure: [
+      "Pemeriksaan awal dan wawancara keluhan",
+      "Scan diagnostik dengan alat OBD",
+      "Pemeriksaan fisik komponen terduga",
+      "Penyampaian estimasi biaya dan waktu",
+      "Perbaikan setelah mendapat persetujuan pelanggan",
+      "Pengujian dan quality check",
+    ],
+    duration: "Bervariasi (1 hari–beberapa hari)",
+    startingPrice: "Hubungi untuk estimasi",
+    symptoms: [
+      "Lampu check engine menyala",
+      "Mesin overheat",
+      "Suara ketukan tidak normal dari mesin",
+      "Kebocoran cairan di bawah kendaraan",
+      "Mesin mati mendadak",
+    ],
+    relatedSlugs: ["tune-up-mobil", "servis-berkala-mobil"],
+  },
+  {
+    slug: "servis-transmisi-mobil",
+    name: "Servis Transmisi Mobil",
+    category: "mobil",
+    icon: "GitMerge",
+    image: "https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?w=800&q=80",
+    shortDesc: "Perawatan dan perbaikan sistem transmisi manual dan otomatik.",
+    description:
+      "Transmisi yang sehat memastikan perpindahan gigi halus dan efisien. FindFix melayani servis transmisi manual maupun otomatik untuk menjaga performa perpindahan daya kendaraan Anda.",
+    benefits: [
+      "Perpindahan gigi lebih halus",
+      "Mencegah kerusakan transmisi lebih lanjut",
+      "Efisiensi bahan bakar meningkat",
+    ],
+    includes: [
+      "Pemeriksaan kondisi transmisi",
+      "Penggantian oli transmisi",
+      "Pengecekan sistem kopling (manual)",
+      "Pemeriksaan selector dan linkage",
+    ],
+    procedure: [
+      "Pemeriksaan awal sistem transmisi",
+      "Penggantian oli transmisi",
+      "Penyetelan komponen sesuai kebutuhan",
+      "Test drive untuk verifikasi",
+    ],
+    duration: "2–6 jam",
+    startingPrice: "Rp 300.000",
+    priceNote: "Harga bervariasi tergantung jenis transmisi dan kondisi.",
+    symptoms: [
+      "Perpindahan gigi terasa keras atau tidak halus",
+      "Suara dengungan saat berkendara",
+      "Kendaraan terasa slip saat akselerasi",
+    ],
+    relatedSlugs: ["servis-berkala-mobil", "perbaikan-mesin-mobil"],
+  },
+  {
+    slug: "servis-ac-mobil",
+    name: "Servis AC Mobil",
+    category: "mobil",
+    icon: "Wind",
+    image: "https://images.unsplash.com/photo-1563720223185-11003d516935?w=800&q=80",
+    shortDesc: "Perawatan dan perbaikan sistem AC agar kabin tetap nyaman.",
+    description:
+      "AC yang berfungsi dengan baik sangat penting untuk kenyamanan berkendara, terutama di iklim tropis Indonesia. FindFix menyediakan layanan pemeriksaan, perawatan, dan perbaikan sistem AC mobil.",
+    benefits: [
+      "AC lebih dingin dan efisien",
+      "Sirkulasi udara lebih bersih",
+      "Mencegah kerusakan kompresor",
+    ],
+    includes: [
+      "Pemeriksaan tekanan freon",
+      "Pembersihan evaporator",
+      "Pengecekan kondenser",
+      "Pemeriksaan kompresor AC",
+      "Penambahan/penggantian freon jika diperlukan",
+    ],
+    procedure: [
+      "Pemeriksaan tekanan sistem AC",
+      "Pemeriksaan kebocoran freon",
+      "Pembersihan filter dan evaporator",
+      "Pengisian ulang freon jika diperlukan",
+      "Test cooling system",
+    ],
+    duration: "1–3 jam",
+    startingPrice: "Rp 150.000",
+    priceNote: "Harga penambahan freon terpisah.",
+    symptoms: [
+      "AC tidak dingin",
+      "Bau tidak sedap dari ventilasi",
+      "Suara berisik saat AC dinyalakan",
+      "Keluar uap atau embun berlebih",
+    ],
+    featured: true,
+    relatedSlugs: ["servis-berkala-mobil"],
+  },
+  {
+    slug: "perbaikan-kaki-kaki-mobil",
+    name: "Perbaikan Kaki-Kaki Mobil",
+    category: "mobil",
+    icon: "Circle",
+    image: "https://images.unsplash.com/photo-1580273916550-e323be2ae537?w=800&q=80",
+    shortDesc: "Perawatan dan perbaikan sistem suspensi dan kemudi untuk keamanan berkendara.",
+    description:
+      "Kaki-kaki kendaraan yang sehat menjamin stabilitas dan keamanan berkendara. FindFix memeriksa dan memperbaiki komponen suspensi, tie rod, ball joint, dan sistem kemudi.",
+    benefits: [
+      "Kendaraan lebih stabil saat berkendara",
+      "Keamanan pengemudi dan penumpang meningkat",
+      "Ban lebih awet",
+      "Setir lebih responsif",
+    ],
+    includes: [
+      "Pemeriksaan shock absorber",
+      "Pemeriksaan ball joint dan tie rod",
+      "Pengecekan kondisi bearing roda",
+      "Pemeriksaan sistem kemudi",
+      "Pengecekan kondisi per/pegas",
+    ],
+    procedure: [
+      "Pemeriksaan visual dan fisik kaki-kaki",
+      "Identifikasi komponen yang aus atau rusak",
+      "Penyampaian estimasi kepada pelanggan",
+      "Penggantian/perbaikan komponen yang disetujui",
+      "Spooring dan balancing pasca perbaikan",
+    ],
+    duration: "2–5 jam",
+    startingPrice: "Rp 200.000",
+    priceNote: "Harga suku cadang terpisah dan bervariasi.",
+    symptoms: [
+      "Setir bergetar saat kecepatan tertentu",
+      "Kendaraan menarik ke satu sisi",
+      "Suara berdenguk atau berderit saat menikung",
+      "Kendaraan terasa limbung di tikungan",
+    ],
+    relatedSlugs: ["spooring-balancing", "perbaikan-rem-mobil"],
+  },
+  {
+    slug: "perbaikan-rem-mobil",
+    name: "Perbaikan Sistem Rem Mobil",
+    category: "mobil",
+    icon: "StopCircle",
+    image: "https://images.unsplash.com/photo-1562813733-b31f71025d54?w=800&q=80",
+    shortDesc: "Pemeriksaan dan perbaikan rem untuk keselamatan berkendara.",
+    description:
+      "Rem adalah komponen keselamatan paling penting. FindFix melakukan pemeriksaan menyeluruh dan perbaikan sistem rem untuk memastikan kendaraan dapat berhenti dengan aman di setiap kondisi.",
+    benefits: [
+      "Jarak pengereman lebih optimal",
+      "Keselamatan berkendara terjamin",
+      "Mencegah kerusakan disc/drum",
+    ],
+    includes: [
+      "Pemeriksaan ketebalan kampas rem",
+      "Pemeriksaan kondisi disc/drum rem",
+      "Pengecekan kaliper rem",
+      "Pemeriksaan minyak rem",
+      "Pengecekan sistem rem ABS (jika ada)",
+    ],
+    procedure: [
+      "Pemeriksaan visual sistem rem",
+      "Pengukuran ketebalan kampas dan disc",
+      "Pemeriksaan kebocoran minyak rem",
+      "Penggantian komponen sesuai kondisi",
+      "Test rem pasca perbaikan",
+    ],
+    duration: "1–3 jam",
+    startingPrice: "Rp 150.000",
+    priceNote: "Harga suku cadang terpisah.",
+    symptoms: [
+      "Rem terasa kurang pakem",
+      "Suara decitan saat mengerem",
+      "Pedal rem terasa dalam/kosong",
+      "Kendaraan menarik saat mengerem",
+      "Getaran saat mengerem",
+    ],
+    relatedSlugs: ["perbaikan-kaki-kaki-mobil", "pemeriksaan-kendaraan"],
+  },
+  {
+    slug: "kelistrikan-mobil",
+    name: "Kelistrikan Mobil",
+    category: "mobil",
+    icon: "Lightbulb",
+    image: "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?w=800&q=80",
+    shortDesc: "Diagnosis dan perbaikan masalah kelistrikan kendaraan.",
+    description:
+      "Sistem kelistrikan modern kendaraan semakin kompleks. FindFix menggunakan peralatan diagnostik untuk mengidentifikasi dan memperbaiki masalah kelistrikan dengan akurat.",
+    benefits: [
+      "Diagnosis akurat dengan scanner OBD",
+      "Perbaikan tepat sasaran",
+      "Mencegah kerusakan komponen elektronik",
+    ],
+    includes: [
+      "Scan sistem kelistrikan dengan OBD",
+      "Pemeriksaan aki dan alternator",
+      "Pengecekan sistem pengapian",
+      "Pemeriksaan lampu dan aksesori",
+      "Pemeriksaan sekering dan relay",
+    ],
+    procedure: [
+      "Pemeriksaan awal dan diagnosa keluhan",
+      "Scan dengan alat diagnostik",
+      "Pemeriksaan fisik komponen terduga",
+      "Perbaikan sesuai persetujuan pelanggan",
+      "Verifikasi sistem berfungsi normal",
+    ],
+    duration: "1–4 jam",
+    startingPrice: "Rp 100.000",
+    symptoms: [
+      "Lampu indikator menyala tanpa sebab jelas",
+      "Aki sering tekor",
+      "Lampu utama bermasalah",
+      "Sistem audio atau aksesori tidak berfungsi",
+    ],
+    featured: true,
+    relatedSlugs: ["servis-berkala-mobil", "perbaikan-mesin-mobil"],
+  },
+  {
+    slug: "spooring-balancing",
+    name: "Spooring dan Balancing",
+    category: "mobil",
+    icon: "Target",
+    image: "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?w=800&q=80",
+    shortDesc: "Penyetelan sudut roda dan balancing untuk kenyamanan berkendara.",
+    description:
+      "Spooring dan balancing yang tepat memastikan kendaraan berjalan lurus, ban aus merata, dan setir tidak bergetar. Sangat dianjurkan setelah penggantian ban atau perbaikan kaki-kaki.",
+    benefits: [
+      "Setir lebih stabil dan tidak bergetar",
+      "Ban lebih awet dan aus merata",
+      "Konsumsi BBM lebih efisien",
+      "Berkendara lebih nyaman",
+    ],
+    includes: [
+      "Penyetelan sudut camber, caster, dan toe",
+      "Balancing semua roda",
+      "Pemeriksaan tekanan ban",
+      "Pengecekan kondisi ban",
+    ],
+    procedure: [
+      "Pemeriksaan awal kondisi ban dan kaki-kaki",
+      "Proses spooring dengan mesin alignment",
+      "Proses balancing dengan mesin balancer",
+      "Test drive untuk verifikasi",
+    ],
+    duration: "1–2 jam",
+    startingPrice: "Rp 150.000",
+    symptoms: [
+      "Setir bergetar di kecepatan tertentu",
+      "Kendaraan menarik ke satu arah",
+      "Ban aus tidak merata",
+      "Baru mengganti ban",
+    ],
+    relatedSlugs: ["perbaikan-kaki-kaki-mobil", "perbaikan-rem-mobil"],
+  },
+  {
+    slug: "pemeriksaan-kendaraan",
+    name: "Pemeriksaan Kendaraan",
+    category: "umum",
+    icon: "Search",
+    image: "https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=800&q=80",
+    shortDesc: "Inspeksi menyeluruh kondisi kendaraan sebelum perjalanan atau pembelian.",
+    description:
+      "Pemeriksaan kendaraan menyeluruh memberikan gambaran kondisi kendaraan secara lengkap. Sangat dianjurkan sebelum perjalanan jauh, pembelian kendaraan bekas, atau sebagai pemeriksaan rutin.",
+    benefits: [
+      "Mengetahui kondisi kendaraan secara menyeluruh",
+      "Mencegah masalah di perjalanan",
+      "Dasar pengambilan keputusan perbaikan",
+      "Ketenangan pikiran sebelum perjalanan",
+    ],
+    includes: [
+      "Pemeriksaan mesin dan cairan",
+      "Pemeriksaan sistem rem",
+      "Pemeriksaan kaki-kaki",
+      "Pemeriksaan kelistrikan",
+      "Pemeriksaan ban",
+      "Pemeriksaan bodi eksterior",
+      "Laporan kondisi kendaraan",
+    ],
+    procedure: [
+      "Pemeriksaan dokumen dan data kendaraan",
+      "Pemeriksaan visual eksterior dan interior",
+      "Pemeriksaan mesin dan sistem pendukung",
+      "Pemeriksaan bawah kendaraan",
+      "Test drive singkat",
+      "Penyampaian laporan hasil pemeriksaan",
+    ],
+    duration: "1–2 jam",
+    startingPrice: "Rp 50.000",
+    featured: true,
+    relatedSlugs: ["servis-berkala-mobil", "perbaikan-mesin-mobil"],
+  },
+  {
+    slug: "body-repair-pengecatan",
+    name: "Body Repair & Pengecatan",
+    category: "mobil",
+    icon: "Brush",
+    image: "https://images.unsplash.com/photo-1619405399517-d7fce0f13302?w=800&q=80",
+    shortDesc: "Perbaikan bodi dan pengecatan untuk mengembalikan tampilan kendaraan.",
+    description:
+      "Layanan body repair dan pengecatan untuk memperbaiki kerusakan bodi kendaraan akibat tabrakan, goresan, atau karat. Hasil pengerjaan rapi dan warna sesuai standar.",
+    benefits: [
+      "Tampilan kendaraan kembali seperti baru",
+      "Mencegah korosi lebih lanjut",
+      "Nilai jual kendaraan terjaga",
+    ],
+    includes: [
+      "Perbaikan panel bodi yang penyok",
+      "Pengisian dempul dan pengamplasan",
+      "Pengecatan sesuai warna asli",
+      "Finishing dan poles",
+    ],
+    procedure: [
+      "Penilaian kerusakan dan estimasi biaya",
+      "Perbaikan panel bodi",
+      "Proses pengecatan bertahap",
+      "Finishing dan quality check",
+    ],
+    duration: "1–7 hari (tergantung kerusakan)",
+    startingPrice: "Hubungi untuk estimasi",
+    symptoms: [
+      "Bodi penyok akibat tabrakan",
+      "Goresan dalam di cat",
+      "Karat pada panel bodi",
+    ],
+    relatedSlugs: ["pemeriksaan-kendaraan"],
+  },
+
+  // ─── MOTOR ─────────────────────────────────────────────────
+  {
+    slug: "servis-ringan-motor",
+    name: "Servis Ringan Motor",
+    category: "motor",
+    icon: "Bike",
+    image: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=800&q=80",
+    shortDesc: "Perawatan rutin ringan untuk menjaga motor tetap prima.",
+    description:
+      "Servis ringan motor mencakup pemeriksaan dan perawatan dasar yang dianjurkan dilakukan secara rutin untuk menjaga motor tetap dalam kondisi optimal.",
+    benefits: [
+      "Motor lebih responsif",
+      "Konsumsi BBM lebih irit",
+      "Mencegah kerusakan lebih besar",
+      "Masa pakai komponen lebih panjang",
+    ],
+    includes: [
+      "Penggantian oli mesin",
+      "Pemeriksaan busi",
+      "Penyetelan karburator/throttle body",
+      "Pemeriksaan rantai/belt CVT",
+      "Pemeriksaan rem",
+      "Pemeriksaan ban",
+    ],
+    procedure: [
+      "Penerimaan motor dan pemeriksaan awal",
+      "Penggantian oli",
+      "Pemeriksaan dan servis komponen",
+      "Penyetelan performa",
+      "Test ride",
+    ],
+    duration: "30–90 menit",
+    startingPrice: "Rp 75.000",
+    priceNote: "Harga belum termasuk suku cadang.",
+    featured: true,
+    relatedSlugs: ["servis-besar-motor", "ganti-oli-motor"],
+  },
+  {
+    slug: "servis-besar-motor",
+    name: "Servis Besar Motor",
+    category: "motor",
+    icon: "Wrench",
+    image: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80",
+    shortDesc: "Servis menyeluruh untuk mengembalikan performa motor secara optimal.",
+    description:
+      "Servis besar motor mencakup pengecekan dan perawatan komprehensif semua sistem motor, termasuk komponen yang tidak diperiksa dalam servis ringan.",
+    benefits: [
+      "Performa motor optimal kembali",
+      "Semua sistem diperiksa secara menyeluruh",
+      "Masa pakai motor lebih panjang",
+    ],
+    includes: [
+      "Semua item servis ringan",
+      "Pembersihan karburator/throttle body mendalam",
+      "Pemeriksaan kompresi mesin",
+      "Pemeriksaan sistem kopling",
+      "Pemeriksaan CVT (motor matic)",
+      "Pembersihan filter udara",
+      "Pemeriksaan aki",
+    ],
+    procedure: [
+      "Pemeriksaan awal menyeluruh",
+      "Pembongkaran dan pembersihan komponen",
+      "Penggantian part yang perlu diganti",
+      "Perakitan dan penyetelan",
+      "Test ride dan quality check",
+    ],
+    duration: "2–4 jam",
+    startingPrice: "Rp 150.000",
+    priceNote: "Harga belum termasuk suku cadang.",
+    relatedSlugs: ["servis-ringan-motor", "servis-cvt-motor"],
+  },
+  {
+    slug: "ganti-oli-motor",
+    name: "Ganti Oli Motor",
+    category: "motor",
+    icon: "Droplet",
+    image: "https://images.unsplash.com/photo-1615906655593-ad0386982a0f?w=800&q=80",
+    shortDesc: "Penggantian oli rutin untuk melindungi mesin motor.",
+    description:
+      "Ganti oli rutin adalah perawatan paling dasar namun paling penting untuk motor. Oli yang segar menjaga mesin terlumasi dengan baik dan mencegah keausan prematur.",
+    benefits: [
+      "Mesin lebih terlindungi",
+      "Perpindahan gigi lebih halus",
+      "Mesin lebih awet",
+    ],
+    includes: [
+      "Penggantian oli mesin",
+      "Penggantian filter oli (jika diperlukan)",
+      "Pengecekan level oli",
+    ],
+    procedure: [
+      "Pemilihan oli sesuai spesifikasi motor",
+      "Pengeluaran oli lama",
+      "Pengisian oli baru",
+      "Verifikasi tidak ada kebocoran",
+    ],
+    duration: "15–30 menit",
+    startingPrice: "Rp 45.000",
+    priceNote: "Harga oli tergantung jenis dan merek.",
+    featured: true,
+    relatedSlugs: ["servis-ringan-motor"],
+  },
+  {
+    slug: "servis-cvt-motor",
+    name: "Servis CVT Motor",
+    category: "motor",
+    icon: "RefreshCw",
+    image: "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=800&q=80",
+    shortDesc: "Perawatan sistem CVT motor matic untuk transmisi yang halus dan responsif.",
+    description:
+      "CVT (Continuously Variable Transmission) adalah komponen kunci motor matic yang perlu dirawat secara berkala. Perawatan CVT yang tepat memastikan transmisi bekerja halus dan efisien.",
+    benefits: [
+      "Transmisi lebih halus dan responsif",
+      "Akselerasi lebih baik",
+      "Komponen CVT lebih awet",
+      "Efisiensi bahan bakar meningkat",
+    ],
+    includes: [
+      "Pembersihan ruang CVT",
+      "Pemeriksaan kondisi belt/v-belt",
+      "Pemeriksaan roller dan kampas ganda",
+      "Pelumasan komponen CVT",
+      "Penggantian belt jika diperlukan",
+    ],
+    procedure: [
+      "Pembongkaran cover CVT",
+      "Pemeriksaan kondisi semua komponen",
+      "Pembersihan ruang CVT",
+      "Penggantian part aus",
+      "Pemasangan dan test ride",
+    ],
+    duration: "1–2 jam",
+    startingPrice: "Rp 100.000",
+    priceNote: "Harga suku cadang terpisah.",
+    symptoms: [
+      "Motor terasa slip atau berat saat akselerasi",
+      "Suara berisik dari area CVT",
+      "Akselerasi terasa tidak responsif",
+      "Getaran berlebih dari area CVT",
+    ],
+    featured: true,
+    relatedSlugs: ["servis-besar-motor", "servis-ringan-motor"],
+  },
+  {
+    slug: "perbaikan-rem-motor",
+    name: "Perbaikan Rem Motor",
+    category: "motor",
+    icon: "StopCircle",
+    image: "https://images.unsplash.com/photo-1562813733-b31f71025d54?w=800&q=80",
+    shortDesc: "Pemeriksaan dan penggantian komponen rem motor.",
+    description:
+      "Rem yang berfungsi baik adalah prioritas keselamatan utama. FindFix memeriksa dan memperbaiki sistem rem motor baik cakram maupun tromol.",
+    benefits: [
+      "Pengereman lebih pakem dan aman",
+      "Mencegah keausan disc/tromol",
+      "Keselamatan berkendara terjamin",
+    ],
+    includes: [
+      "Pemeriksaan ketebalan kampas rem",
+      "Pemeriksaan disc/tromol",
+      "Penyetelan rem",
+      "Penggantian minyak rem (disc)",
+    ],
+    procedure: [
+      "Pemeriksaan kondisi rem",
+      "Penggantian kampas jika diperlukan",
+      "Penyetelan kabel/minyak rem",
+      "Test pengereman",
+    ],
+    duration: "30–90 menit",
+    startingPrice: "Rp 50.000",
+    symptoms: [
+      "Rem terasa kurang pakem",
+      "Suara decitan saat mengerem",
+      "Tuas rem terasa dalam",
+    ],
+    relatedSlugs: ["servis-ringan-motor"],
+  },
+  {
+    slug: "perbaikan-kelistrikan-motor",
+    name: "Perbaikan Kelistrikan Motor",
+    category: "motor",
+    icon: "Zap",
+    image: "https://images.unsplash.com/photo-1620288627223-53302f4e8c74?w=800&q=80",
+    shortDesc: "Diagnosis dan perbaikan masalah kelistrikan motor.",
+    description:
+      "Masalah kelistrikan pada motor dapat menyebabkan motor sulit dihidupkan atau komponen elektronik tidak berfungsi. FindFix melakukan pemeriksaan dan perbaikan kelistrikan motor secara tepat.",
+    benefits: [
+      "Motor dapat dihidupkan dengan normal",
+      "Semua komponen kelistrikan berfungsi",
+      "Diagnosis akurat dan tepat",
+    ],
+    includes: [
+      "Pemeriksaan aki dan pengisian",
+      "Pengecekan sistem pengapian",
+      "Pemeriksaan lampu dan klakson",
+      "Pemeriksaan sekering",
+    ],
+    procedure: [
+      "Pemeriksaan awal dan wawancara keluhan",
+      "Pengujian tegangan dan arus listrik",
+      "Identifikasi komponen bermasalah",
+      "Perbaikan atau penggantian komponen",
+      "Verifikasi sistem berfungsi normal",
+    ],
+    duration: "1–3 jam",
+    startingPrice: "Rp 75.000",
+    symptoms: [
+      "Motor tidak mau dihidupkan",
+      "Lampu redup atau tidak menyala",
+      "Klakson tidak berbunyi",
+      "Aki sering tekor",
+    ],
+    relatedSlugs: ["servis-ringan-motor", "servis-besar-motor"],
+  },
+  {
+    slug: "penggantian-ban-motor",
+    name: "Penggantian Ban Motor",
+    category: "motor",
+    icon: "Circle",
+    image: "https://images.unsplash.com/photo-1558981852-426c6c22a060?w=800&q=80",
+    shortDesc: "Penggantian ban motor dengan berbagai pilihan merek dan tipe.",
+    description:
+      "Ban adalah satu-satunya titik kontak motor dengan jalan. FindFix menyediakan layanan penggantian ban motor dengan berbagai pilihan merek dan tipe yang sesuai kebutuhan.",
+    benefits: [
+      "Traksi lebih baik dan aman",
+      "Handling lebih responsif",
+      "Keselamatan berkendara meningkat",
+    ],
+    includes: [
+      "Pelepasan ban lama",
+      "Pemasangan ban baru",
+      "Balancing roda",
+      "Pengecekan tekanan angin",
+    ],
+    procedure: [
+      "Pemilihan ban sesuai ukuran dan kebutuhan",
+      "Pelepasan roda dari motor",
+      "Penggantian ban",
+      "Balancing dan pemasangan kembali",
+    ],
+    duration: "30–60 menit",
+    startingPrice: "Rp 50.000",
+    priceNote: "Harga ban terpisah tergantung merek dan ukuran.",
+    symptoms: [
+      "Ban sudah botak atau gundul",
+      "Ban sering kempes",
+      "Retak pada permukaan ban",
+    ],
+    relatedSlugs: ["servis-ringan-motor"],
+  },
+
+  // ─── LAYANAN UMUM ───────────────────────────────────────────
+  {
+    slug: "servis-darurat",
+    name: "Layanan Darurat & Bantuan Jalan",
+    category: "umum",
+    icon: "AlertTriangle",
+    image: "https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?w=800&q=80",
+    shortDesc: "Bantuan darurat untuk kendaraan mogok atau bermasalah di jalan.",
+    description:
+      "Kendaraan bermasalah di jalan bisa terjadi kapan saja. FindFix menyediakan layanan bantuan darurat yang dapat dihubungi untuk mendapatkan panduan atau penanganan awal melalui WhatsApp.",
+    benefits: [
+      "Respons cepat melalui WhatsApp",
+      "Panduan penanganan awal",
+      "Koordinasi layanan towing jika diperlukan",
+    ],
+    includes: [
+      "Konsultasi darurat via WhatsApp",
+      "Panduan penanganan awal",
+      "Koordinasi penanganan lanjutan",
+    ],
+    procedure: [
+      "Hubungi FindFix melalui WhatsApp",
+      "Sampaikan lokasi dan kondisi kendaraan",
+      "Terima panduan penanganan awal",
+      "Koordinasi solusi terbaik bersama tim",
+    ],
+    duration: "Sesuai kondisi",
+    startingPrice: "Hubungi untuk informasi",
+    relatedSlugs: ["pemeriksaan-kendaraan", "perbaikan-mesin-mobil"],
+  },
+];
+
+export function getServiceBySlug(slug: string): Service | undefined {
+  return SERVICES.find((s) => s.slug === slug);
+}
+
+export function getServicesByCategory(category: "mobil" | "motor" | "umum"): Service[] {
+  return SERVICES.filter((s) => s.category === category);
+}
+
+export function getFeaturedServices(): Service[] {
+  return SERVICES.filter((s) => s.featured);
+}

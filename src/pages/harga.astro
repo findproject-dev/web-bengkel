@@ -1,0 +1,560 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { PRICE_LIST, PRICE_PACKAGES } from '../data/pricing';
+import { SITE, waLink } from '../config/site';
+
+const carPrices = PRICE_LIST.filter(p => p.vehicleType === 'mobil');
+const motorPrices = PRICE_LIST.filter(p => p.vehicleType === 'motor');
+---
+
+<Layout
+  title="Daftar Harga & Paket Servis Bengkel FindFix Semarang"
+  description="Daftar harga estimasi servis mobil dan motor di FindFix Semarang. Pilihan paket Basic Care, Standard Care, Complete Care dengan harga transparan dan pengerjaan terpercaya."
+>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Harga &amp; Paket</span>
+      </nav>
+
+      <div class="pricing-hero-header">
+        <p class="section-eyebrow">Daftar Biaya &amp; Paket</p>
+        <h1>Estimasi Harga Transparan Tanpa Biaya Tersembunyi</h1>
+        <p class="hero-desc">
+          Kami percaya pada transparansi biaya. Seluruh estimasi harga disampaikan di muka dan pengerjaan hanya dilakukan setelah mendapat persetujuan Anda.
+        </p>
+      </div>
+
+      <!-- Disclaimer Banner -->
+      <div class="pricing-page-disclaimer">
+        <div class="disclaimer-badge">Pemberitahuan Estimasi</div>
+        <p class="disclaimer-body">
+          {SITE.pricingDisclaimer}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Service Packages (Basic, Standard, Complete) -->
+  <section class="section packages-section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 56px;">
+        <p class="section-eyebrow" style="margin: 0 auto 12px;">Pilihan Perawatan Rutin</p>
+        <h2 class="section-title">Paket Perawatan Kendaraan</h2>
+        <p class="section-desc" style="margin: 0 auto;">Pilih paket servis yang sesuai dengan kebutuhan dan frekuensi pemakaian kendaraan Anda.</p>
+      </div>
+
+      <div class="packages-grid">
+        {PRICE_PACKAGES.map((pkg) => (
+          <div class={`package-card ${pkg.highlighted ? 'pricing-card-highlight' : ''}`}>
+            {pkg.highlighted && <div class="pricing-badge">Paling Populer</div>}
+            
+            <div class="package-header">
+              <h3 class="package-name">{pkg.name}</h3>
+              <p class="package-subtitle">{pkg.subtitle}</p>
+              <p class="package-target">{pkg.targetDesc}</p>
+            </div>
+
+            <div class="package-pricing-box">
+              <span class="package-price">{pkg.price}</span>
+              <span class="package-price-note">{pkg.priceNote}</span>
+            </div>
+
+            <div class="package-features">
+              <span class="features-label">Cakupan Pemeriksaan &amp; Servis:</span>
+              <ul class="features-list">
+                {pkg.items.map((item) => (
+                  <li class="feature-item">
+                    <span class="feature-icon" aria-hidden="true">✔</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="package-action">
+              <a
+                href={`/booking?paket=${encodeURIComponent(pkg.name)}`}
+                class={`btn ${pkg.highlighted ? 'btn-primary' : 'btn-secondary'} btn-block`}
+              >
+                Booking Paket Ini
+              </a>
+              <a
+                href={waLink(`Halo FindFix, saya ingin konsultasi mengenai paket "${pkg.name}". Mohon informasi rinciannya.`)}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="package-wa-link"
+              >
+                Tanya Rincian via WhatsApp →
+              </a>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Detailed Price Tables -->
+  <section class="section section-offwhite tables-section">
+    <div class="container">
+      <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+        <p class="section-eyebrow" style="margin: 0 auto 12px;">Rincian Lengkap</p>
+        <h2 class="section-title">Daftar Estimasi Tarif Layanan</h2>
+        <p class="section-desc" style="margin: 0 auto;">Pilih kategori kendaraan di bawah untuk melihat rincian estimasi biaya pengerjaan.</p>
+      </div>
+
+      <!-- Tabs Toggle -->
+      <div class="price-tabs-wrapper">
+        <button class="price-tab-btn active" id="tab-mobil-btn" data-target="panel-mobil">
+          🚗 Layanan Mobil
+        </button>
+        <button class="price-tab-btn" id="tab-motor-btn" data-target="panel-motor">
+          🏍️ Layanan Motor
+        </button>
+      </div>
+
+      <!-- Mobil Table Panel -->
+      <div class="price-panel active" id="panel-mobil">
+        {carPrices.map((group) => (
+          <div class="price-group-card">
+            <h3 class="price-group-title">{group.category}</h3>
+            <div class="table-responsive">
+              <table class="price-table">
+                <thead>
+                  <tr>
+                    <th>Jenis Layanan</th>
+                    <th>Estimasi Waktu</th>
+                    <th>Estimasi Harga Mulai</th>
+                    <th>Catatan</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {group.items.map((item) => (
+                    <tr>
+                      <td class="cell-name">
+                        <strong>{item.name}</strong>
+                      </td>
+                      <td class="cell-duration">⏱ {item.duration || '-'}</td>
+                      <td class="cell-price">{item.startingPrice}</td>
+                      <td class="cell-note">{item.note || 'Estimasi final setelah cek'}</td>
+                      <td class="cell-action">
+                        <a href={`/booking?layanan=${encodeURIComponent(item.name)}`} class="btn btn-primary btn-sm">
+                          Booking
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Motor Table Panel -->
+      <div class="price-panel" id="panel-motor" style="display: none;">
+        {motorPrices.map((group) => (
+          <div class="price-group-card">
+            <h3 class="price-group-title">{group.category}</h3>
+            <div class="table-responsive">
+              <table class="price-table">
+                <thead>
+                  <tr>
+                    <th>Jenis Layanan</th>
+                    <th>Estimasi Waktu</th>
+                    <th>Estimasi Harga Mulai</th>
+                    <th>Catatan</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {group.items.map((item) => (
+                    <tr>
+                      <td class="cell-name">
+                        <strong>{item.name}</strong>
+                      </td>
+                      <td class="cell-duration">⏱ {item.duration || '-'}</td>
+                      <td class="cell-price">{item.startingPrice}</td>
+                      <td class="cell-note">{item.note || 'Estimasi final setelah cek'}</td>
+                      <td class="cell-action">
+                        <a href={`/booking?layanan=${encodeURIComponent(item.name)}`} class="btn btn-primary btn-sm">
+                          Booking
+                        </a>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Principles & FAQs -->
+  <section class="section faq-section">
+    <div class="container faq-container">
+      <div class="section-header" style="text-align: center; margin-bottom: 48px;">
+        <p class="section-eyebrow" style="margin: 0 auto 12px;">Transparansi Biaya</p>
+        <h2 class="section-title">Ketentuan &amp; Pertanyaan Tarif</h2>
+      </div>
+
+      <div class="faq-list">
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="price-faq-1" id="p-btn-1">
+            <span>Mengapa harga yang tertera berstatus estimasi awal?</span>
+            <span class="accordion-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="accordion-content" id="price-faq-1" role="region" aria-labelledby="p-btn-1">
+            <div class="accordion-content-inner">
+              Setiap kendaraan memiliki riwayat pemakaian, kapasitas oli mesin, tipe transmisi, serta tingkat keausan komponen yang berbeda. Oleh karena itu, pemeriksaan fisik awal sangat diperlukan agar tim teknisi dapat memberikan rincian biaya yang akurat dan tepat sasaran.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="price-faq-2" id="p-btn-2">
+            <span>Apakah ada biaya tersembunyi atau tambahan tanpa izin?</span>
+            <span class="accordion-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="accordion-content" id="price-faq-2" role="region" aria-labelledby="p-btn-2">
+            <div class="accordion-content-inner">
+              Sama sekali tidak. Salah satu keunggulan utama FindFix adalah persetujuan pelanggan sebelum tindakan tambahan. Jika saat pengerjaan ditemukan komponen lain yang aus, teknisi kami wajib mengonfirmasi dan meminta persetujuan Anda terlebih dahulu beserta estimasi biayanya.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="price-faq-3" id="p-btn-3">
+            <span>Metode pembayaran apa saja yang diterima?</span>
+            <span class="accordion-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="accordion-content" id="price-faq-3" role="region" aria-labelledby="p-btn-3">
+            <div class="accordion-content-inner">
+              FindFix menerima pembayaran tunai (cash) serta pembayaran non-tunai melalui QRIS (GoPay, OVO, Dana, ShopeePay, mobile banking) dan transfer bank langsung.
+            </div>
+          </div>
+        </div>
+
+        <div class="accordion-item">
+          <button class="accordion-trigger" aria-expanded="false" aria-controls="price-faq-4" id="p-btn-4">
+            <span>Bagaimana ketentuan garansi servis di FindFix?</span>
+            <span class="accordion-icon" aria-hidden="true">+</span>
+          </button>
+          <div class="accordion-content" id="price-faq-4" role="region" aria-labelledby="p-btn-4">
+            <div class="accordion-content-inner">
+              Setiap perbaikan disertai garansi pengerjaan yang tertera pada nota servis resmi. Apabila kendala serupa timbul kembali dalam masa garansi, bawa kembali kendaraan Anda beserta nota untuk pemeriksaan ulang tanpa biaya jasa tambahan sesuai ketentuan.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="section section-dark final-cta">
+    <div class="container" style="text-align: center;">
+      <p class="section-eyebrow" style="color: var(--color-orange); margin: 0 auto 16px;">Konsultasi Biaya</p>
+      <h2 style="max-width: 18ch; margin: 0 auto 20px;">Dapatkan Estimasi Biaya Kendaraan Anda Sekarang</h2>
+      <p class="section-desc" style="margin: 0 auto 36px; color: rgba(255,255,255,0.65);">
+        Sampaikan keluhan dan jenis kendaraan Anda kepada teknisi FindFix untuk mendapatkan rekomendasi dan estimasi biaya awal melalui WhatsApp.
+      </p>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="/booking" class="btn btn-primary btn-lg">Booking Servis Online</a>
+        <a
+          href={waLink("Halo FindFix, saya ingin menanyakan estimasi biaya servis kendaraan saya. Boleh bantu hitungkan?")}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-outline-white btn-lg"
+        >
+          Tanya Estimasi via WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.pricing-hero-header {
+  max-width: 760px;
+  margin-top: 24px;
+}
+.pricing-hero-header h1 {
+  color: white;
+  margin-bottom: 16px;
+}
+.pricing-page-disclaimer {
+  margin-top: 32px;
+  background: rgba(244, 123, 53, 0.1);
+  border: 1px solid rgba(244, 123, 53, 0.3);
+  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.disclaimer-badge {
+  background: var(--color-orange);
+  color: white;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.disclaimer-body {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Packages Grid */
+.packages-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+.package-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 36px 30px;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-base);
+  position: relative;
+}
+.package-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-4px);
+}
+.package-name {
+  font-size: 1.5rem;
+  color: var(--color-navy);
+  margin-bottom: 4px;
+}
+.package-subtitle {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--color-orange);
+  margin-bottom: 10px;
+}
+.package-target {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+  line-height: 1.4;
+  margin-bottom: 24px;
+}
+.package-pricing-box {
+  background: var(--color-off-white);
+  padding: 18px 20px;
+  border-radius: var(--radius-md);
+  margin-bottom: 28px;
+  text-align: center;
+}
+.package-price {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-navy);
+  line-height: 1.2;
+}
+.package-price-note {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  margin-top: 4px;
+  display: block;
+}
+.package-features {
+  flex: 1;
+  margin-bottom: 32px;
+}
+.features-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-navy);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 14px;
+}
+.features-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--color-slate);
+  line-height: 1.5;
+}
+.feature-icon {
+  color: #10B981;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.package-action {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+.package-wa-link {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-slate);
+  transition: color var(--transition-fast);
+}
+.package-wa-link:hover {
+  color: var(--color-orange);
+}
+
+/* Tabs & Tables */
+.price-tabs-wrapper {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.price-tab-btn {
+  padding: 12px 28px;
+  border-radius: 999px;
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-slate);
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+.price-tab-btn:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+.price-tab-btn.active {
+  background: var(--color-navy);
+  border-color: var(--color-navy);
+  color: white;
+}
+
+.price-group-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  margin-bottom: 32px;
+}
+.price-group-title {
+  font-size: 1.25rem;
+  color: var(--color-navy);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-off-white);
+}
+.table-responsive {
+  overflow-x: auto;
+}
+.price-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+.price-table th {
+  padding: 14px 16px;
+  font-family: var(--font-heading);
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: var(--color-off-white);
+  border-bottom: 1px solid var(--color-border);
+}
+.price-table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 0.875rem;
+  vertical-align: middle;
+}
+.cell-name strong {
+  color: var(--color-navy);
+  font-size: 0.95rem;
+}
+.cell-duration {
+  color: var(--color-gray);
+  white-space: nowrap;
+}
+.cell-price {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-orange);
+  white-space: nowrap;
+  font-size: 1rem;
+}
+.cell-note {
+  color: var(--color-gray);
+  font-size: 0.8125rem;
+}
+.cell-action {
+  text-align: right;
+  white-space: nowrap;
+}
+
+@media (max-width: 1024px) {
+  .packages-grid {
+    grid-template-columns: 1fr;
+    max-width: 540px;
+    margin: 0 auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .price-table th:nth-child(2),
+  .price-table td:nth-child(2),
+  .price-table th:nth-child(4),
+  .price-table td:nth-child(4) {
+    display: none;
+  }
+}
+</style>
+
+<script>
+  const mobilBtn = document.getElementById('tab-mobil-btn');
+  const motorBtn = document.getElementById('tab-motor-btn');
+  const panelMobil = document.getElementById('panel-mobil');
+  const panelMotor = document.getElementById('panel-motor');
+
+  mobilBtn?.addEventListener('click', () => {
+    mobilBtn.classList.add('active');
+    motorBtn?.classList.remove('active');
+    if (panelMobil) panelMobil.style.display = 'block';
+    if (panelMotor) panelMotor.style.display = 'none';
+  });
+
+  motorBtn?.addEventListener('click', () => {
+    motorBtn.classList.add('active');
+    mobilBtn?.classList.remove('active');
+    if (panelMotor) panelMotor.style.display = 'block';
+    if (panelMobil) panelMobil.style.display = 'none';
+  });
+</script>

@@ -1,0 +1,683 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SERVICES } from '../data/services';
+import { PRICE_PACKAGES } from '../data/pricing';
+import { SITE, waLink } from '../config/site';
+
+const serviceList = SERVICES.map(s => s.name);
+const packageList = PRICE_PACKAGES.map(p => `Paket ${p.name}`);
+const allBookingOptions = [...serviceList, ...packageList, 'Lainnya / Belum Tahu'];
+
+// Map slugs & lowercase names to exact select values for reliable pre-fill
+const serviceSlugMap = Object.fromEntries(
+  SERVICES.flatMap(s => [
+    [s.slug.toLowerCase(), s.name],
+    [s.name.toLowerCase(), s.name]
+  ])
+);
+const packageSlugMap = Object.fromEntries(
+  PRICE_PACKAGES.flatMap(p => [
+    [p.id.toLowerCase(), `Paket ${p.name}`],
+    [p.name.toLowerCase(), `Paket ${p.name}`],
+    [`paket ${p.name}`.toLowerCase(), `Paket ${p.name}`]
+  ])
+);
+---
+
+<Layout
+  title="Booking Servis Online - Bengkel FindFix Semarang"
+  description="Formulir booking servis mobil & motor FindFix Semarang. Pilih tanggal, jam, dan keluhan kendaraan Anda untuk konfirmasi instan via WhatsApp."
+>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Booking Servis</span>
+      </nav>
+
+      <div class="booking-hero-header">
+        <p class="section-eyebrow">Pendaftaran Jadwal</p>
+        <h1>Booking Servis Mobil &amp; Motor</h1>
+        <p class="hero-desc">
+          Isi formulir di bawah ini untuk mereservasi slot servis Anda di FindFix. Sistem akan otomatis menyiapkan format rincian reservasi kendaraan Anda.
+        </p>
+
+        <div class="booking-notice-card">
+          <span class="notice-icon" aria-hidden="true">ℹ️</span>
+          <p class="notice-desc">
+            <strong>Catatan Reservasi:</strong> Pengisian formulir ini akan otomatis menyiapkan format rincian reservasi dan menghubungkan Anda langsung ke WhatsApp FindFix ({SITE.whatsappDisplay}).
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking Main Section -->
+  <section class="section booking-form-section">
+    <div class="container booking-grid-layout">
+      <!-- Form Container -->
+      <div class="booking-card">
+        <div class="booking-card-header">
+          <h2 class="form-title">Formulir Reservasi Servis</h2>
+          <p class="form-subtitle">Lengkapi rincian kendaraan dan jadwal yang Anda inginkan (* wajib diisi).</p>
+        </div>
+
+        <form
+          id="booking-form"
+          class="booking-form"
+          data-whatsapp={SITE.whatsapp}
+          data-service-map={JSON.stringify(serviceSlugMap)}
+          data-package-map={JSON.stringify(packageSlugMap)}
+          novalidate
+        >
+          <!-- Section 1: Customer Info -->
+          <div class="form-section-group">
+            <h3 class="form-group-title">1. Data Pemilik Kendaraan</h3>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="nama" class="form-label">Nama Lengkap *</label>
+                <input
+                  type="text"
+                  id="nama"
+                  name="nama"
+                  class="form-input"
+                  placeholder="Contoh: Budi Santoso"
+                  required
+                />
+                <span class="form-error" id="err-nama"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="wa" class="form-label">Nomor WhatsApp Aktif *</label>
+                <input
+                  type="tel"
+                  id="wa"
+                  name="wa"
+                  class="form-input"
+                  placeholder="Contoh: 081234567890"
+                  required
+                />
+                <span class="form-error" id="err-wa"></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: Vehicle Info -->
+          <div class="form-section-group">
+            <h3 class="form-group-title">2. Informasi Kendaraan</h3>
+
+            <div class="form-row-3">
+              <div class="form-group">
+                <label for="kendaraan" class="form-label">Jenis Kendaraan *</label>
+                <select id="kendaraan" name="kendaraan" class="form-select" required>
+                  <option value="">Pilih Jenis</option>
+                  <option value="Mobil">Mobil (Roda 4)</option>
+                  <option value="Motor">Motor (Roda 2)</option>
+                </select>
+                <span class="form-error" id="err-kendaraan"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="merek" class="form-label">Merek Kendaraan *</label>
+                <input
+                  type="text"
+                  id="merek"
+                  name="merek"
+                  class="form-input"
+                  placeholder="Contoh: Toyota, Honda, Yamaha"
+                  required
+                />
+                <span class="form-error" id="err-merek"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="tipe" class="form-label">Tipe / Model *</label>
+                <input
+                  type="text"
+                  id="tipe"
+                  name="tipe"
+                  class="form-input"
+                  placeholder="Contoh: Avanza G, NMAX 155"
+                  required
+                />
+                <span class="form-error" id="err-tipe"></span>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="tahun" class="form-label">Tahun Pembuatan (Opsional)</label>
+                <input
+                  type="number"
+                  id="tahun"
+                  name="tahun"
+                  class="form-input"
+                  placeholder="Contoh: 2020"
+                  min="1990"
+                  max="2027"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="nopol" class="form-label">Nomor Polisi (Opsional)</label>
+                <input
+                  type="text"
+                  id="nopol"
+                  name="nopol"
+                  class="form-input"
+                  placeholder="Contoh: H 1234 AB"
+                />
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 3: Service Selection & Complaint -->
+          <div class="form-section-group">
+            <h3 class="form-group-title">3. Kebutuhan Servis</h3>
+
+            <div class="form-group">
+              <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px;">
+                <label for="layanan" class="form-label">Layanan / Paket yang Diinginkan *</label>
+                <span id="selected-service-badge" class="badge badge-orange" style="display: none;"></span>
+              </div>
+              <select id="layanan" name="layanan" class="form-select" required>
+                <option value="">Pilih Jenis Layanan</option>
+                {allBookingOptions.map((opt) => (
+                  <option value={opt}>{opt}</option>
+                ))}
+              </select>
+              <span class="form-error" id="err-layanan"></span>
+            </div>
+
+            <div class="form-group">
+              <label for="keluhan" class="form-label">Keluhan atau Catatan Servis *</label>
+              <textarea
+                id="keluhan"
+                name="keluhan"
+                class="form-textarea"
+                placeholder="Ceritakan kendala yang dirasakan (misal: bunyi mendengung saat rem, AC kurang dingin, tarikan berat, dsb.)..."
+                rows="3"
+                required
+              ></textarea>
+              <span class="form-error" id="err-keluhan"></span>
+            </div>
+          </div>
+
+          <!-- Section 4: Schedule Selection -->
+          <div class="form-section-group">
+            <h3 class="form-group-title">4. Jadwal Kunjungan</h3>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="tanggal" class="form-label">Tanggal Rencana Kunjungan *</label>
+                <input
+                  type="date"
+                  id="tanggal"
+                  name="tanggal"
+                  class="form-input"
+                  required
+                />
+                <span class="form-error" id="err-tanggal"></span>
+              </div>
+
+              <div class="form-group">
+                <label for="waktu" class="form-label">Preferensi Waktu Kedatangan *</label>
+                <select id="waktu" name="waktu" class="form-select" required>
+                  <option value="">Pilih Jam</option>
+                  <option value="Pagi (08.00 - 10.00 WIB)">Pagi (08.00 - 10.00 WIB)</option>
+                  <option value="Siang (10.00 - 12.00 WIB)">Siang (10.00 - 12.00 WIB)</option>
+                  <option value="Siang Menjelang Sore (13.00 - 15.00 WIB)">Siang Menjelang Sore (13.00 - 15.00 WIB)</option>
+                  <option value="Sore (15.00 - 17.00 WIB)">Sore (15.00 - 17.00 WIB)</option>
+                </select>
+                <span class="form-error" id="err-waktu"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="catatan" class="form-label">Catatan Tambahan untuk Teknisi (Opsional)</label>
+              <input
+                type="text"
+                id="catatan"
+                name="catatan"
+                class="form-input"
+                placeholder="Contoh: Tolong sekalian periksa wiper depan"
+              />
+            </div>
+          </div>
+
+          <!-- Submit Button -->
+          <div class="form-submit-container">
+            <button type="submit" id="submit-btn" class="btn btn-primary btn-lg btn-submit">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              <span>Kirim &amp; Lanjutkan ke WhatsApp</span>
+            </button>
+            <p class="submit-note">
+              Dengan mengklik tombol di atas, formulir akan memformat pesan WhatsApp secara otomatis untuk dikirim ke FindFix ({SITE.whatsappDisplay}).
+            </p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Booking Info Sidebar -->
+      <aside class="booking-sidebar">
+        <!-- Benefit Card -->
+        <div class="sidebar-info-card">
+          <h3 class="info-card-title">Keuntungan Booking Terlebih Dahulu</h3>
+          <ul class="info-bullets">
+            <li>
+              <span class="info-check">✔</span>
+              <span><strong>Slot Terjamin:</strong> Meminimalkan waktu antre kendaraan saat tiba di bengkel.</span>
+            </li>
+            <li>
+              <span class="info-check">✔</span>
+              <span><strong>Persiapan Part:</strong> Teknisi dapat menyiapkan suku cadang yang relevan lebih awal.</span>
+            </li>
+            <li>
+              <span class="info-check">✔</span>
+              <span><strong>Estimasi Awal:</strong> Dapatkan gambaran perkiraan durasi pengerjaan sebelum datang.</span>
+            </li>
+            <li>
+              <span class="info-check">✔</span>
+              <span><strong>Garansi Servis:</strong> Setiap pekerjaan terdata dengan nomor reservasi rapi.</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Working Hours Card -->
+        <div class="sidebar-info-card">
+          <h3 class="info-card-title">Jam Pelayanan Bengkel</h3>
+          <div class="hours-compact-list">
+            <div class="hours-item">
+              <span>Senin – Jumat</span>
+              <strong>08.00 – 17.00 WIB</strong>
+            </div>
+            <div class="hours-item">
+              <span>Sabtu</span>
+              <strong>08.00 – 15.00 WIB</strong>
+            </div>
+            <div class="hours-item closed">
+              <span>Minggu &amp; Libur Nasional</span>
+              <strong>Tutup / Janji Khusus</strong>
+            </div>
+          </div>
+          <p class="hours-tip">
+            Disarankan hadir 10–15 menit sebelum jam estimasi reservasi Anda.
+          </p>
+        </div>
+
+        <!-- Need Immediate Help? -->
+        <div class="sidebar-info-card urgent-card">
+          <h4 class="urgent-title">🚨 Kendaraan Mogok / Butuh Cepat?</h4>
+          <p class="urgent-desc">
+            Jika kendaraan Anda mengalami kondisi darurat di jalan, segera hubungi kontak darurat kami via WhatsApp untuk panduan penanganan awal.
+          </p>
+          <a
+            href={waLink("Halo FindFix, kendaraan saya mengalami kendala darurat di jalan. Mohon bantuan panduan teknisi.")}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary btn-block"
+          >
+            Hubungi Bantuan Cepat
+          </a>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.booking-hero-header {
+  max-width: 780px;
+  margin-top: 24px;
+}
+.booking-hero-header h1 {
+  color: white;
+  margin-bottom: 16px;
+}
+.booking-notice-card {
+  margin-top: 28px;
+  background: rgba(244, 123, 53, 0.12);
+  border: 1px solid rgba(244, 123, 53, 0.35);
+  border-radius: var(--radius-md);
+  padding: 18px 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+.notice-icon {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.notice-desc {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Grid Layout */
+.booking-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+}
+
+/* Booking Card */
+.booking-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 44px;
+  box-shadow: var(--shadow-md);
+}
+.booking-card-header {
+  margin-bottom: 32px;
+  border-bottom: 2px solid var(--color-off-white);
+  padding-bottom: 20px;
+}
+.form-title {
+  font-size: 1.625rem;
+  color: var(--color-navy);
+  margin-bottom: 6px;
+}
+.form-subtitle {
+  font-size: 0.875rem;
+  color: var(--color-gray);
+}
+
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+.form-section-group {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.form-group-title {
+  font-size: 1.125rem;
+  color: var(--color-navy);
+  margin-bottom: 4px;
+}
+.form-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.form-row-3 {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+}
+
+.form-submit-container {
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+.btn-submit {
+  width: 100%;
+  justify-content: center;
+  font-size: 1.0625rem;
+  padding: 16px 24px;
+}
+.submit-note {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+  text-align: center;
+  margin-top: 12px;
+}
+
+/* Sidebar Info */
+.booking-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 100px;
+}
+.sidebar-info-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+.info-card-title {
+  font-size: 1.1rem;
+  color: var(--color-navy);
+  margin-bottom: 16px;
+}
+.info-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.info-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.875rem;
+  color: var(--color-slate);
+  line-height: 1.5;
+}
+.info-check {
+  color: #10B981;
+  font-weight: bold;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.hours-compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+.hours-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--color-off-white);
+  border-radius: var(--radius-sm);
+  font-size: 0.8125rem;
+  color: var(--color-slate);
+}
+.hours-item.closed {
+  color: var(--color-gray);
+}
+.hours-tip {
+  font-size: 0.75rem;
+  color: var(--color-gray);
+  margin-top: 6px;
+}
+
+.urgent-card {
+  background: rgba(244, 123, 53, 0.08);
+  border: 1px solid rgba(244, 123, 53, 0.3);
+}
+.urgent-title {
+  font-size: 1rem;
+  color: var(--color-navy);
+  margin-bottom: 8px;
+}
+.urgent-desc {
+  font-size: 0.8125rem;
+  color: var(--color-slate);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .booking-grid-layout {
+    grid-template-columns: 1fr;
+  }
+  .booking-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .booking-card {
+    padding: 24px;
+  }
+  .form-row-2,
+  .form-row-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+</style>
+
+<script>
+  // Pre-fill query param if user came from a specific service or package page
+  const bookingForm = document.getElementById('booking-form') as HTMLFormElement | null;
+  const rawServiceMap = bookingForm?.dataset.serviceMap || '{}';
+  const rawPackageMap = bookingForm?.dataset.packageMap || '{}';
+  
+  let serviceMap: Record<string, string> = {};
+  let packageMap: Record<string, string> = {};
+  try {
+    serviceMap = JSON.parse(rawServiceMap);
+    packageMap = JSON.parse(rawPackageMap);
+  } catch (err) {
+    console.error('Failed to parse service/package mapping:', err);
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const rawLayananParam = (urlParams.get('layanan') || '').trim();
+  const rawPaketParam = (urlParams.get('paket') || '').trim();
+
+  const layananSelect = document.getElementById('layanan') as HTMLSelectElement | null;
+  if (layananSelect) {
+    if (rawLayananParam) {
+      const lower = rawLayananParam.toLowerCase();
+      const matched = serviceMap[lower] || rawLayananParam;
+      for (let i = 0; i < layananSelect.options.length; i++) {
+        const opt = layananSelect.options[i];
+        if (opt.value.toLowerCase() === matched.toLowerCase() || opt.value.toLowerCase().includes(lower)) {
+          layananSelect.selectedIndex = i;
+          break;
+        }
+      }
+    } else if (rawPaketParam) {
+      const lower = rawPaketParam.toLowerCase();
+      const matched = packageMap[lower] || `Paket ${rawPaketParam}`;
+      for (let i = 0; i < layananSelect.options.length; i++) {
+        const opt = layananSelect.options[i];
+        if (opt.value.toLowerCase() === matched.toLowerCase() || opt.value.toLowerCase().includes(lower)) {
+          layananSelect.selectedIndex = i;
+          break;
+        }
+      }
+    }
+  }
+
+  // Set min date to tomorrow
+  const tanggalInput = document.getElementById('tanggal') as HTMLInputElement | null;
+  if (tanggalInput) {
+    const today = new Date();
+    today.setDate(today.getDate() + 1);
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    tanggalInput.min = `${yyyy}-${mm}-${dd}`;
+  }
+
+  // Form Validation & WhatsApp Redirection
+  bookingForm?.addEventListener('submit', (e) => {
+    e.preventDefault();
+
+    // Reset errors
+    const errorElements = document.querySelectorAll('.form-error');
+    errorElements.forEach((el) => (el.textContent = ''));
+    const inputs = document.querySelectorAll('.form-input, .form-select, .form-textarea');
+    inputs.forEach((el) => el.classList.remove('error'));
+
+    let isValid = true;
+
+    // Helper validation function
+    function checkRequired(id: string, errId: string, msg: string) {
+      const field = document.getElementById(id) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement | null;
+      if (!field || !field.value.trim()) {
+        const errEl = document.getElementById(errId);
+        if (errEl) errEl.textContent = msg;
+        field?.classList.add('error');
+        isValid = false;
+        return '';
+      }
+      return field.value.trim();
+    }
+
+    const nama = checkRequired('nama', 'err-nama', 'Nama lengkap wajib diisi');
+    const wa = checkRequired('wa', 'err-wa', 'Nomor WhatsApp wajib diisi');
+    const kendaraan = checkRequired('kendaraan', 'err-kendaraan', 'Pilih tipe kendaraan');
+    const merek = checkRequired('merek', 'err-merek', 'Merek kendaraan wajib diisi');
+    const tipe = checkRequired('tipe', 'err-tipe', 'Tipe / model kendaraan wajib diisi');
+    const layanan = checkRequired('layanan', 'err-layanan', 'Pilih jenis layanan yang dibutuhkan');
+    const keluhan = checkRequired('keluhan', 'err-keluhan', 'Sampaikan keluhan atau kebutuhan servis');
+    const tanggal = checkRequired('tanggal', 'err-tanggal', 'Tentukan tanggal rencana kunjungan');
+    const waktu = checkRequired('waktu', 'err-waktu', 'Pilih preferensi waktu kunjungan');
+
+    const tahun = (document.getElementById('tahun') as HTMLInputElement)?.value.trim();
+    const nopol = (document.getElementById('nopol') as HTMLInputElement)?.value.trim();
+    const catatan = (document.getElementById('catatan') as HTMLInputElement)?.value.trim();
+
+    // Validate phone number format (must contain at least 9 digits)
+    if (wa && !/^(\+62|62|08)[0-9]{7,13}$/.test(wa.replace(/[- ]/g, ''))) {
+      const errEl = document.getElementById('err-wa');
+      if (errEl) errEl.textContent = 'Format nomor WhatsApp tidak valid (contoh: 081234567890)';
+      document.getElementById('wa')?.classList.add('error');
+      isValid = false;
+    }
+
+    if (!isValid) {
+      const firstError = document.querySelector('.form-input.error, .form-select.error, .form-textarea.error');
+      firstError?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    const vehicleDesc = [merek, tipe, tahun].filter(Boolean).join(' ');
+    const noteContent = catatan || keluhan || '-';
+
+    const waText = `Halo FindFix, saya ingin melakukan booking servis.
+
+Data Pelanggan
+Nama: ${nama}
+Nomor Telepon: ${wa}
+
+Informasi Kendaraan
+Jenis Kendaraan: ${kendaraan}
+Merek/Model: ${vehicleDesc || `${merek} ${tipe}`}
+Nomor Polisi: ${nopol || '-'}
+
+Detail Servis
+Layanan: ${layanan}
+Tanggal: ${tanggal}
+Waktu: ${waktu}
+
+Catatan:
+${noteContent}
+
+Mohon informasi lebih lanjut mengenai booking ini. Terima kasih.`;
+
+    const waNumber = bookingForm?.dataset.whatsapp || '6281234567890';
+    const cleanNumber = waNumber.replace(/[^0-9]/g, '');
+    const waUrl = `https://wa.me/${cleanNumber}?text=${encodeURIComponent(waText)}`;
+
+    // Open WhatsApp directly
+    window.location.href = waUrl;
+  });
+</script>

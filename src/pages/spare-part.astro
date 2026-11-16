@@ -1,0 +1,592 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { SPARE_PARTS, SPARE_PART_CATEGORIES } from '../data/spare-parts';
+import { SITE, waLink, waProductInquiry } from '../config/site';
+
+const categories = SPARE_PART_CATEGORIES;
+---
+
+<Layout
+  title="Katalog Spare Part & Suku Cadang - FindFix Semarang"
+  description="Katalog suku cadang, oli, filter, rem, aki, dan ban mobil & motor di FindFix Semarang. Konsultasi ketersediaan dan harga langsung via WhatsApp."
+>
+  <!-- Hero Section -->
+  <section class="page-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">Spare Part</span>
+      </nav>
+
+      <div class="sparepart-hero-header">
+        <p class="section-eyebrow">Katalog Suku Cadang</p>
+        <h1>Komponen Berkualitas untuk Performa Kendaraan Anda</h1>
+        <p class="hero-desc">
+          Jelajahi berbagai pilihan suku cadang, pelumas, dan komponen kendaraan untuk mobil dan motor. Hubungi kami langsung melalui WhatsApp untuk menanyakan ketersediaan stok dan harga terkini.
+        </p>
+
+        <!-- Informational Banner -->
+        <div class="catalog-info-notice">
+          <span class="notice-badge">Katalog Informasi</span>
+          <p class="notice-text">
+            Situs ini merupakan katalog referensi komponen bengkel, bukan toko online. Seluruh pertanyaan stok, spesifikasi, dan estimasi harga dilayani langsung oleh tim kami melalui WhatsApp.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Interactive Catalog Section -->
+  <section class="section catalog-section">
+    <div class="container">
+      <!-- Search & Filters Toolbar -->
+      <div class="catalog-toolbar">
+        <div class="search-input-wrapper">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="search-icon" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input
+            type="search"
+            id="part-search"
+            class="catalog-search-input"
+            placeholder="Cari nama spare part, merek, atau tipe..."
+            aria-label="Cari spare part"
+          />
+        </div>
+
+        <div class="toolbar-controls">
+          <!-- Vehicle Type Filter -->
+          <div class="filter-dropdown-wrap">
+            <label for="filter-vehicle" class="dropdown-label">Tipe Kendaraan:</label>
+            <select id="filter-vehicle" class="catalog-select">
+              <option value="all">Semua Kendaraan</option>
+              <option value="mobil">Mobil</option>
+              <option value="motor">Motor</option>
+            </select>
+          </div>
+
+          <!-- Sort Select -->
+          <div class="filter-dropdown-wrap">
+            <label for="sort-select" class="dropdown-label">Urutkan:</label>
+            <select id="sort-select" class="catalog-select">
+              <option value="name-asc">Nama (A - Z)</option>
+              <option value="name-desc">Nama (Z - A)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="category-pills-bar" role="tablist" aria-label="Filter kategori spare part">
+        <button class="cat-pill active" data-category="all" role="tab" aria-selected="true">
+          Semua ({SPARE_PARTS.length})
+        </button>
+        {categories.map((cat) => {
+          const count = SPARE_PARTS.filter(p => p.category === cat.id).length;
+          return (
+            <button class="cat-pill" data-category={cat.id} role="tab" aria-selected="false">
+              {cat.label} ({count})
+            </button>
+          );
+        })}
+      </div>
+
+      <!-- Parts Grid -->
+      <div class="parts-grid" id="parts-grid">
+        {SPARE_PARTS.map((part) => {
+          const catLabel = categories.find(c => c.id === part.category)?.label || part.category;
+          const waMessage = waProductInquiry(part.name);
+          const waHref = waLink(waMessage);
+
+          return (
+            <article
+              class="part-card"
+              data-category={part.category}
+              data-vehicles={JSON.stringify(part.vehicleType)}
+              data-name={part.name.toLowerCase()}
+              data-brands={part.brands ? part.brands.join(' ').toLowerCase() : ''}
+            >
+              <div class="part-img-wrap">
+                <img src={part.image} alt={part.name} class="part-img" loading="lazy" />
+                <span class="part-cat-badge">{catLabel}</span>
+              </div>
+
+              <div class="part-card-body">
+                <div class="part-vehicles-tags">
+                  {part.vehicleType.map(vt => (
+                    <span class={`vehicle-tag tag-${vt}`}>
+                      {vt === 'mobil' ? '🚗 Mobil' : vt === 'motor' ? '🏍️ Motor' : '🚗🏍️ Mobil & Motor'}
+                    </span>
+                  ))}
+                </div>
+
+                <h3 class="part-name">{part.name}</h3>
+                <p class="part-desc">{part.description}</p>
+
+                {part.brands && part.brands.length > 0 && (
+                  <div class="part-brands">
+                    <span class="brands-label">Merek Pilihan:</span>
+                    <span class="brands-list">{part.brands.join(', ')}</span>
+                  </div>
+                )}
+
+                <div class="part-price-row">
+                  <div class="part-price-info">
+                    <span class="price-label">Estimasi Harga:</span>
+                    <span class="price-value">{part.price || 'Hubungi untuk harga'}</span>
+                  </div>
+                </div>
+
+                <div class="part-actions">
+                  <a
+                    href={waHref}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="btn btn-primary btn-sm btn-inquire"
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                    </svg>
+                    Tanya Ketersediaan
+                  </a>
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-icon" aria-hidden="true">🔍</div>
+        <h3 class="empty-title">Komponen Tidak Ditemukan</h3>
+        <p class="empty-desc">
+          Tidak ada suku cadang yang cocok dengan kata kunci atau filter yang Anda pilih. Butuh spare part tertentu? Tim FindFix siap mencarikan komponen yang Anda butuhkan.
+        </p>
+        <a
+          href={`https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent('Halo FindFix, saya sedang mencari suku cadang tertentu yang tidak saya temukan di katalog. Bisa dibantu?')}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn btn-primary"
+          style="margin-top: 16px;"
+        >
+          Tanya Spare Part Khusus via WhatsApp
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bottom CTA -->
+  <section class="section section-dark final-cta">
+    <div class="container" style="text-align: center;">
+      <p class="section-eyebrow" style="color: var(--color-orange); margin: 0 auto 16px;">Pemasangan di Bengkel</p>
+      <h2 style="max-width: 18ch; margin: 0 auto 20px;">Butuh Bantuan Pemasangan Spare Part?</h2>
+      <p class="section-desc" style="margin: 0 auto 36px; color: rgba(255,255,255,0.65);">
+        Seluruh suku cadang yang tersedia dapat langsung dipasang oleh teknisi berpengalaman di bengkel FindFix dengan jaminan pengerjaan rapi dan bergaransi.
+      </p>
+      <div style="display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;">
+        <a href="/booking" class="btn btn-primary btn-lg">Booking Servis &amp; Pemasangan</a>
+        <a href="/layanan" class="btn btn-outline-white btn-lg">Lihat Layanan Terkait</a>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.sparepart-hero-header {
+  max-width: 780px;
+  margin-top: 24px;
+}
+.sparepart-hero-header h1 {
+  color: white;
+  margin-bottom: 16px;
+}
+.catalog-info-notice {
+  margin-top: 28px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+.notice-badge {
+  background: rgba(244, 123, 53, 0.2);
+  color: var(--color-orange);
+  border: 1px solid rgba(244, 123, 53, 0.4);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  flex-shrink: 0;
+}
+.notice-text {
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Toolbar */
+.catalog-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.search-input-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 280px;
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-gray);
+  pointer-events: none;
+}
+.catalog-search-input {
+  width: 100%;
+  padding: 12px 14px 12px 42px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9375rem;
+  background: var(--color-white);
+  color: var(--color-navy);
+  outline: none;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+.catalog-search-input:focus {
+  border-color: var(--color-orange);
+  box-shadow: 0 0 0 3px rgba(244, 123, 53, 0.12);
+}
+.toolbar-controls {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.filter-dropdown-wrap {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.dropdown-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-slate);
+  white-space: nowrap;
+}
+.catalog-select {
+  padding: 10px 14px;
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  font-size: 0.875rem;
+  color: var(--color-navy);
+  outline: none;
+  cursor: pointer;
+  transition: border-color var(--transition-fast);
+}
+.catalog-select:focus {
+  border-color: var(--color-orange);
+}
+
+/* Category Pills Bar */
+.category-pills-bar {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 12px;
+  margin-bottom: 36px;
+  scrollbar-width: none;
+}
+.category-pills-bar::-webkit-scrollbar {
+  display: none;
+}
+.cat-pill {
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  border: 1.5px solid var(--color-border);
+  background: var(--color-white);
+  color: var(--color-gray);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+.cat-pill:hover {
+  border-color: var(--color-orange);
+  color: var(--color-orange);
+}
+.cat-pill.active {
+  background: var(--color-navy);
+  border-color: var(--color-navy);
+  color: white;
+}
+
+/* Parts Grid */
+.parts-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+.part-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition-base);
+}
+.part-card:hover {
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-3px);
+  border-color: rgba(244, 123, 53, 0.4);
+}
+.part-img-wrap {
+  position: relative;
+  background: var(--color-off-white);
+}
+.part-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  display: block;
+}
+.part-cat-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(16, 27, 43, 0.75);
+  backdrop-filter: blur(4px);
+  color: white;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+}
+.part-card-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+.part-vehicles-tags {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+.vehicle-tag {
+  font-size: 0.6875rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-off-white);
+  color: var(--color-slate);
+}
+.part-name {
+  font-size: 1.0625rem;
+  color: var(--color-navy);
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+.part-desc {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+  margin-bottom: 14px;
+  flex: 1;
+}
+.part-brands {
+  font-size: 0.75rem;
+  color: var(--color-slate);
+  margin-bottom: 14px;
+  padding: 6px 10px;
+  background: var(--color-off-white);
+  border-radius: var(--radius-sm);
+}
+.brands-label {
+  font-weight: 600;
+  color: var(--color-navy);
+  margin-right: 4px;
+}
+.part-price-row {
+  margin-bottom: 16px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-border);
+}
+.price-label {
+  display: block;
+  font-size: 0.6875rem;
+  color: var(--color-gray);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 2px;
+}
+.price-value {
+  font-family: var(--font-heading);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: var(--color-orange);
+}
+.btn-inquire {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Empty State */
+.empty-state {
+  text-align: center;
+  padding: 64px 20px;
+  background: var(--color-white);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius-xl);
+  max-width: 600px;
+  margin: 40px auto 0;
+}
+.empty-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+}
+.empty-title {
+  font-size: 1.375rem;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+.empty-desc {
+  font-size: 0.9375rem;
+  color: var(--color-gray);
+  line-height: 1.6;
+}
+
+@media (max-width: 1200px) {
+  .parts-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .parts-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .catalog-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .toolbar-controls {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 480px) {
+  .parts-grid {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+
+<script>
+  // Dynamic client-side search, filtering, and sorting
+  const searchInput = document.getElementById('part-search') as HTMLInputElement | null;
+  const vehicleSelect = document.getElementById('filter-vehicle') as HTMLSelectElement | null;
+  const sortSelect = document.getElementById('sort-select') as HTMLSelectElement | null;
+  const categoryPills = document.querySelectorAll('.cat-pill');
+  const partsGrid = document.getElementById('parts-grid');
+  const emptyState = document.getElementById('empty-state');
+  const partCards = document.querySelectorAll('.part-card');
+
+  let activeCategory = 'all';
+
+  function filterParts() {
+    const searchTerm = searchInput?.value.toLowerCase().trim() || '';
+    const vehicleFilter = vehicleSelect?.value || 'all';
+    let visibleCount = 0;
+
+    partCards.forEach((card) => {
+      const el = card as HTMLElement;
+      const cardCat = el.dataset.category || '';
+      const cardName = el.dataset.name || '';
+      const cardBrands = el.dataset.brands || '';
+      const cardVehicles: string[] = JSON.parse(el.dataset.vehicles || '[]');
+
+      // Category check
+      const matchesCategory = activeCategory === 'all' || cardCat === activeCategory;
+
+      // Vehicle check
+      const matchesVehicle =
+        vehicleFilter === 'all' ||
+        cardVehicles.includes('keduanya') ||
+        cardVehicles.includes(vehicleFilter);
+
+      // Search check
+      const matchesSearch =
+        searchTerm === '' ||
+        cardName.includes(searchTerm) ||
+        cardBrands.includes(searchTerm);
+
+      if (matchesCategory && matchesVehicle && matchesSearch) {
+        el.style.display = 'flex';
+        visibleCount++;
+      } else {
+        el.style.display = 'none';
+      }
+    });
+
+    if (emptyState) {
+      emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+    }
+  }
+
+  // Category tab clicks
+  categoryPills.forEach((pill) => {
+    pill.addEventListener('click', () => {
+      categoryPills.forEach((p) => {
+        p.classList.remove('active');
+        p.setAttribute('aria-selected', 'false');
+      });
+      pill.classList.add('active');
+      pill.setAttribute('aria-selected', 'true');
+      activeCategory = (pill as HTMLElement).dataset.category || 'all';
+      filterParts();
+    });
+  });
+
+  // Inputs change
+  searchInput?.addEventListener('input', filterParts);
+  searchInput?.addEventListener('search', filterParts);
+  vehicleSelect?.addEventListener('change', filterParts);
+
+  // Sorting
+  sortSelect?.addEventListener('change', () => {
+    if (!partsGrid) return;
+    const cardsArray = Array.from(partCards);
+    const sortVal = sortSelect.value;
+
+    cardsArray.sort((a, b) => {
+      const nameA = (a as HTMLElement).dataset.name || '';
+      const nameB = (b as HTMLElement).dataset.name || '';
+      if (sortVal === 'name-asc') {
+        return nameA.localeCompare(nameB);
+      } else {
+        return nameB.localeCompare(nameA);
+      }
+    });
+
+    cardsArray.forEach((card) => partsGrid.appendChild(card));
+  });
+</script>

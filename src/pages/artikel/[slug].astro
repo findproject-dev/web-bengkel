@@ -1,0 +1,472 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { ARTICLES, getArticleBySlug, getRelatedArticles, ARTICLE_CATEGORIES } from '../../data/articles';
+import { getServiceBySlug } from '../../data/services';
+import { SITE, waLink } from '../../config/site';
+
+export function getStaticPaths() {
+  return ARTICLES.map((article) => ({
+    params: { slug: article.slug },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+
+if (!article) {
+  return Astro.redirect('/artikel');
+}
+
+const relatedArticles = getRelatedArticles(article.slug, 3);
+const catLabel = ARTICLE_CATEGORIES.find(c => c.id === article.category)?.label || article.category;
+
+// Related services
+const relatedServices = article.relatedServiceSlugs
+  ? article.relatedServiceSlugs.map((s) => getServiceBySlug(s)).filter(Boolean)
+  : [];
+---
+
+<Layout
+  title={`${article.title} - Edukasi Otomotif FindFix`}
+  description={article.excerpt}
+  image={article.image}
+>
+  <!-- Article Hero -->
+  <section class="article-detail-hero">
+    <div class="container">
+      <nav class="breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Beranda</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="/artikel">Artikel</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span class="breadcrumb-current">{catLabel}</span>
+      </nav>
+
+      <div class="article-header-box">
+        <span class="article-cat-badge">{catLabel}</span>
+        <h1 class="article-main-title">{article.title}</h1>
+
+        <div class="article-publish-meta">
+          <div class="author-info">
+            <span class="author-avatar" aria-hidden="true">🛠️</span>
+            <div>
+              <span class="author-name">Tim Teknis FindFix</span>
+              <span class="author-role">Teknisi Otomotif Semarang</span>
+            </div>
+          </div>
+          <div class="meta-divider" aria-hidden="true"></div>
+          <div class="meta-date-read">
+            <span>📅 {new Date(article.publishDate).toLocaleDateString('id-ID', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+            <span>•</span>
+            <span>⏱️ {article.readingTime} Menit Baca</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Article Body & Sidebar -->
+  <section class="section article-content-section">
+    <div class="container article-layout-grid">
+      <!-- Main Content -->
+      <article class="article-main-body">
+        <div class="article-featured-media">
+          <img src={article.image} alt={article.title} class="article-lead-img" loading="eager" />
+        </div>
+
+        <!-- Render Article HTML Content -->
+        <div class="article-prose" set:html={article.content} />
+
+        <!-- Tags -->
+        {article.tags && article.tags.length > 0 && (
+          <div class="article-tags-box">
+            <span class="tags-label">Topik Terkait:</span>
+            <div class="tags-list">
+              {article.tags.map((tag) => (
+                <span class="article-tag">#{tag}</span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Related Service CTA Banner -->
+        {relatedServices.length > 0 && (
+          <div class="article-service-cta-banner">
+            <div class="service-cta-text">
+              <span class="service-cta-eyebrow">Layanan Terkait di Bengkel FindFix</span>
+              <h3 class="service-cta-title">Kendaraan Anda Mengalami Gejala yang Disebutkan?</h3>
+              <p class="service-cta-desc">
+                Teknisi FindFix siap memeriksa kondisi kendaraan Anda secara menyeluruh dengan peralatan modern dan harga transparan.
+              </p>
+              <div class="service-cta-buttons">
+                <a href={`/layanan/${relatedServices[0]?.slug}`} class="btn btn-primary">
+                  Lihat Layanan {relatedServices[0]?.name}
+                </a>
+                <a href="/booking" class="btn btn-secondary">
+                  Booking Servis Sekarang
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
+      </article>
+
+      <!-- Sidebar -->
+      <aside class="article-sidebar">
+        <!-- Quick Booking Box -->
+        <div class="sidebar-widget booking-cta-box">
+          <h4 class="widget-heading">Jadwalkan Servis</h4>
+          <p class="widget-p">Kendaraan butuh perawatan rutin atau ada indikasi masalah?</p>
+          <a href="/booking" class="btn btn-primary btn-block">Booking Jadwal Servis</a>
+          <a
+            href={waLink(`Halo FindFix, saya membaca artikel "${article.title}" dan ingin konsultasi kondisi kendaraan saya.`)}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn btn-secondary btn-block"
+            style="margin-top: 10px;"
+          >
+            Konsultasi WhatsApp
+          </a>
+        </div>
+
+        <!-- Related Articles -->
+        {relatedArticles.length > 0 && (
+          <div class="sidebar-widget">
+            <h4 class="widget-heading">Artikel Terkait</h4>
+            <div class="sidebar-related-articles">
+              {relatedArticles.map((rel) => (
+                <a href={`/artikel/${rel.slug}`} class="sidebar-article-item">
+                  <img src={rel.image} alt={rel.title} class="sidebar-art-img" loading="lazy" />
+                  <div class="sidebar-art-info">
+                    <span class="sidebar-art-title">{rel.title}</span>
+                    <span class="sidebar-art-time">⏱ {rel.readingTime} mnt baca</span>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        <!-- Workshop Info Box -->
+        <div class="sidebar-widget">
+          <h4 class="widget-heading">Bengkel FindFix</h4>
+          <p style="font-size: 0.8125rem; color: var(--color-gray); line-height: 1.5; margin-bottom: 12px;">
+            Melayani servis mobil dan motor sejak 2017 di Semarang.
+          </p>
+          <div class="sidebar-contact-brief">
+            <div>📍 {SITE.city}, {SITE.province}</div>
+            <div>⏰ {SITE.hours.weekday}</div>
+            <div>💬 {SITE.whatsappDisplay}</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+</Layout>
+
+<style>
+.article-detail-hero {
+  background: var(--color-navy);
+  color: white;
+  padding: 120px 0 56px;
+}
+.article-header-box {
+  max-width: 820px;
+  margin-top: 24px;
+}
+.article-cat-badge {
+  display: inline-block;
+  background: rgba(244, 123, 53, 0.2);
+  border: 1px solid rgba(244, 123, 53, 0.4);
+  color: var(--color-orange);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 5px 14px;
+  border-radius: 999px;
+  margin-bottom: 16px;
+}
+.article-main-title {
+  color: white;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  line-height: 1.2;
+  margin-bottom: 24px;
+}
+.article-publish-meta {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.author-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.author-avatar {
+  font-size: 1.5rem;
+  background: rgba(255, 255, 255, 0.08);
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.author-name {
+  display: block;
+  font-weight: 700;
+  color: white;
+  font-size: 0.9375rem;
+}
+.author-role {
+  display: block;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.55);
+}
+.meta-divider {
+  width: 1px;
+  height: 32px;
+  background: rgba(255, 255, 255, 0.15);
+}
+.meta-date-read {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8125rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+/* Article Layout */
+.article-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 48px;
+  align-items: start;
+}
+.article-main-body {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  padding: 40px;
+}
+.article-featured-media {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 36px;
+}
+.article-lead-img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Article Prose */
+.article-prose {
+  font-size: 1.0625rem;
+  line-height: 1.8;
+  color: var(--color-slate);
+}
+.article-prose :global(h2) {
+  font-size: 1.625rem;
+  color: var(--color-navy);
+  margin-top: 36px;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.article-prose :global(h3) {
+  font-size: 1.25rem;
+  color: var(--color-navy);
+  margin-top: 28px;
+  margin-bottom: 12px;
+  line-height: 1.35;
+}
+.article-prose :global(p) {
+  margin-bottom: 20px;
+  max-width: 100%;
+}
+.article-prose :global(ul),
+.article-prose :global(ol) {
+  margin-bottom: 24px;
+  padding-left: 24px;
+}
+.article-prose :global(ul) {
+  list-style: disc;
+}
+.article-prose :global(ol) {
+  list-style: decimal;
+}
+.article-prose :global(li) {
+  margin-bottom: 10px;
+  line-height: 1.65;
+}
+
+/* Tags */
+.article-tags-box {
+  margin-top: 36px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.tags-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--color-navy);
+}
+.tags-list {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.article-tag {
+  background: var(--color-off-white);
+  border: 1px solid var(--color-border);
+  color: var(--color-slate);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+
+/* Service CTA Banner */
+.article-service-cta-banner {
+  margin-top: 40px;
+  background: var(--color-navy);
+  border-radius: var(--radius-lg);
+  padding: 36px;
+  color: white;
+}
+.service-cta-eyebrow {
+  display: block;
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-orange);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 8px;
+}
+.service-cta-title {
+  color: white;
+  font-size: 1.375rem;
+  margin-bottom: 10px;
+}
+.service-cta-desc {
+  font-size: 0.9375rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.service-cta-buttons {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* Sidebar */
+.article-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  position: sticky;
+  top: 100px;
+}
+.sidebar-widget {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+}
+.booking-cta-box {
+  border-top: 4px solid var(--color-orange);
+}
+.widget-heading {
+  font-size: 1.125rem;
+  color: var(--color-navy);
+  margin-bottom: 10px;
+}
+.widget-p {
+  font-size: 0.8125rem;
+  color: var(--color-gray);
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.btn-block {
+  width: 100%;
+  justify-content: center;
+}
+
+.sidebar-related-articles {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sidebar-article-item {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition-fast);
+}
+.sidebar-article-item:hover {
+  background: var(--color-off-white);
+}
+.sidebar-art-img {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.sidebar-art-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.sidebar-art-title {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--color-navy);
+  line-height: 1.35;
+}
+.sidebar-art-time {
+  font-size: 0.6875rem;
+  color: var(--color-gray);
+}
+
+.sidebar-contact-brief {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.8125rem;
+  color: var(--color-slate);
+}
+
+@media (max-width: 1024px) {
+  .article-layout-grid {
+    grid-template-columns: 1fr;
+  }
+  .article-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .article-main-body {
+    padding: 24px;
+  }
+  .article-lead-img {
+    height: 240px;
+  }
+  .article-service-cta-banner {
+    padding: 24px;
+  }
+}
+</style>
